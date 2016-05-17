@@ -1,0 +1,659 @@
+   1               		.file	"uart.c"
+   2               	__SP_L__ = 0x3d
+   3               	__SREG__ = 0x3f
+   4               	__tmp_reg__ = 0
+   5               	__zero_reg__ = 1
+   8               		.text
+   9               	.Ltext0:
+ 112               	.global	init_uart
+ 114               	init_uart:
+ 115               		.stabd	46,0,0
+   1:uart.c        **** /* -----------------------------------------------------------------------
+   2:uart.c        ****  * uart.c
+   3:uart.c        ****  * baudrate 9600
+   4:uart.c        ****  * adapted to ATtiny2313
+   5:uart.c        ****  */
+   6:uart.c        **** 
+   7:uart.c        **** #include <inttypes.h>
+   8:uart.c        **** #include <stdio.h>
+   9:uart.c        **** #include <avr/interrupt.h>
+  10:uart.c        **** #include <avr/io.h>
+  11:uart.c        **** #include <avr/pgmspace.h>
+  12:uart.c        **** #include <util/delay.h>
+  13:uart.c        **** #include "uart.h"
+  14:uart.c        **** 
+  15:uart.c        **** #ifndef TRUE
+  16:uart.c        **** #define TRUE 1
+  17:uart.c        **** #define FALSE 0 
+  18:uart.c        **** #endif
+  19:uart.c        **** 
+  20:uart.c        **** //#define BAUD 19200
+  21:uart.c        **** #define BAUD 9600
+  22:uart.c        **** // 4.096MHz
+  23:uart.c        **** //  4800: 52.3333333
+  24:uart.c        **** //  9600: 25.6666667
+  25:uart.c        **** // 14400: 16.7777778
+  26:uart.c        **** // 19600: 12.06
+  27:uart.c        **** // 28800: 7.8889
+  28:uart.c        **** // 38400: 5.6667
+  29:uart.c        **** 
+  30:uart.c        **** #define MYUBBR ((F_CPU / (BAUD * 16L)) - 1)
+  31:uart.c        **** #define BUFFER_SIZE 16
+  32:uart.c        **** 
+  33:uart.c        **** volatile static uint8_t rx_buffer[BUFFER_SIZE] = "xxxxxxxxxxxxxxxx";
+  34:uart.c        **** volatile static uint8_t tx_buffer[BUFFER_SIZE] = "xxxxxxxxxxxxxxxx";
+  35:uart.c        **** volatile static uint8_t rx_head = 0;
+  36:uart.c        **** volatile static uint8_t rx_tail = 0;
+  37:uart.c        **** volatile static uint8_t tx_head = 0;
+  38:uart.c        **** volatile static uint8_t tx_tail = 0;
+  39:uart.c        **** volatile static uint8_t sent = TRUE;
+  40:uart.c        **** 
+  41:uart.c        **** 
+  42:uart.c        **** /*
+  43:uart.c        ****  * init_uart
+  44:uart.c        ****  */
+  45:uart.c        **** void init_uart(void) {
+ 117               	.LM0:
+ 118               	.LFBB1:
+ 119               	/* prologue: function */
+ 120               	/* frame size = 0 */
+ 121               	/* stack size = 0 */
+ 122               	.L__stack_usage = 0
+  46:uart.c        ****   // set baud rate
+  47:uart.c        ****   UBRRH = (uint8_t)(MYUBBR >> 8); 
+ 124               	.LM1:
+ 125 0000 12B8      		out 0x2,__zero_reg__
+  48:uart.c        ****   UBRRL = (uint8_t)(MYUBBR);
+ 127               	.LM2:
+ 128 0002 83E3      		ldi r24,lo8(51)
+ 129 0004 89B9      		out 0x9,r24
+  49:uart.c        ****   // enable receive and transmit
+  50:uart.c        ****   UCSRB = (1 << RXEN) | (1 << TXEN) | (1 << RXCIE);
+ 131               	.LM3:
+ 132 0006 88E9      		ldi r24,lo8(-104)
+ 133 0008 8AB9      		out 0xa,r24
+  51:uart.c        ****   // set frame format
+  52:uart.c        ****   UCSRC = (1 << USBS) | (3 << UCSZ0);	// asynchron 8n1
+ 135               	.LM4:
+ 136 000a 8EE0      		ldi r24,lo8(14)
+ 137 000c 83B9      		out 0x3,r24
+ 138 000e 0895      		ret
+ 140               	.Lscope1:
+ 142               		.stabd	78,0,0
+ 145               	.global	send_uart
+ 147               	send_uart:
+ 148               		.stabd	46,0,0
+  53:uart.c        **** }
+  54:uart.c        **** 
+  55:uart.c        **** 
+  56:uart.c        **** 
+  57:uart.c        **** /*
+  58:uart.c        ****  * send_uart
+  59:uart.c        ****  * Sends a single char to UART without ISR
+  60:uart.c        ****  */
+  61:uart.c        **** void send_uart(uint8_t c) {
+ 150               	.LM5:
+ 151               	.LFBB2:
+ 152               	/* prologue: function */
+ 153               	/* frame size = 0 */
+ 154               	/* stack size = 0 */
+ 155               	.L__stack_usage = 0
+ 156               	.L4:
+  62:uart.c        ****   // wait for empty data register
+  63:uart.c        ****   while (!(UCSRA & (1<<UDRE)));
+ 158               	.LM6:
+ 159 0010 5D9B      		sbis 0xb,5
+ 160 0012 00C0      		rjmp .L4
+  64:uart.c        ****   // set data into data register
+  65:uart.c        ****   UDR = c;
+ 162               	.LM7:
+ 163 0014 8CB9      		out 0xc,r24
+ 164 0016 0895      		ret
+ 166               	.Lscope2:
+ 168               		.stabd	78,0,0
+ 170               	.global	receive_uart
+ 172               	receive_uart:
+ 173               		.stabd	46,0,0
+  66:uart.c        **** }
+  67:uart.c        **** 
+  68:uart.c        **** 
+  69:uart.c        **** 
+  70:uart.c        **** /*
+  71:uart.c        ****  * receive_uart
+  72:uart.c        ****  * Receives a single char without ISR
+  73:uart.c        ****  */
+  74:uart.c        **** uint8_t receive_uart() {
+ 175               	.LM8:
+ 176               	.LFBB3:
+ 177               	/* prologue: function */
+ 178               	/* frame size = 0 */
+ 179               	/* stack size = 0 */
+ 180               	.L__stack_usage = 0
+ 181               	.L8:
+  75:uart.c        ****   while ( !(UCSRA & (1<<RXC)) ) 
+ 183               	.LM9:
+ 184 0018 5F9B      		sbis 0xb,7
+ 185 001a 00C0      		rjmp .L8
+  76:uart.c        ****     ; 
+  77:uart.c        ****   return UDR; 
+ 187               	.LM10:
+ 188 001c 8CB1      		in r24,0xc
+  78:uart.c        **** }
+ 190               	.LM11:
+ 191 001e 0895      		ret
+ 193               	.Lscope3:
+ 195               		.stabd	78,0,0
+ 197               	.global	uart_getc
+ 199               	uart_getc:
+ 200               		.stabd	46,0,0
+  79:uart.c        **** 
+  80:uart.c        **** 
+  81:uart.c        **** 
+  82:uart.c        **** /*
+  83:uart.c        ****  * uart_getc
+  84:uart.c        ****  * Gets a single char from the receive buffer.
+  85:uart.c        ****  * return	uint16_r	the received char or UART_NO_DATA 
+  86:uart.c        ****  */
+  87:uart.c        **** uint16_t uart_getc(void) {
+ 202               	.LM12:
+ 203               	.LFBB4:
+ 204               	/* prologue: function */
+ 205               	/* frame size = 0 */
+ 206               	/* stack size = 0 */
+ 207               	.L__stack_usage = 0
+  88:uart.c        ****   uint8_t c = 0;
+  89:uart.c        ****   uint8_t tmp_tail = 0;
+  90:uart.c        ****   if (rx_head == rx_tail) {
+ 209               	.LM13:
+ 210 0020 9091 0000 		lds r25,rx_head
+ 211 0024 8091 0000 		lds r24,rx_tail
+ 212 0028 9817      		cp r25,r24
+ 213 002a 01F0      		breq .L11
+ 214               	.LBB4:
+ 215               	.LBB5:
+  91:uart.c        ****     return UART_NO_DATA;
+  92:uart.c        ****   }
+  93:uart.c        ****   tmp_tail = (rx_tail + 1) % BUFFER_SIZE;
+ 217               	.LM14:
+ 218 002c 2091 0000 		lds r18,rx_tail
+ 219 0030 30E0      		ldi r19,0
+ 220 0032 2F5F      		subi r18,-1
+ 221 0034 3F4F      		sbci r19,-1
+ 222 0036 2F70      		andi r18,15
+ 223 0038 3327      		clr r19
+  94:uart.c        ****   c = rx_buffer[rx_tail];
+ 225               	.LM15:
+ 226 003a E091 0000 		lds r30,rx_tail
+ 227 003e F0E0      		ldi r31,0
+ 228 0040 E050      		subi r30,lo8(-(rx_buffer))
+ 229 0042 F040      		sbci r31,hi8(-(rx_buffer))
+ 230 0044 8081      		ld r24,Z
+  95:uart.c        ****   rx_tail = tmp_tail;
+ 232               	.LM16:
+ 233 0046 2093 0000 		sts rx_tail,r18
+  96:uart.c        ****   return c;
+ 235               	.LM17:
+ 236 004a 90E0      		ldi r25,0
+ 237 004c 0895      		ret
+ 238               	.L11:
+ 239               	.LBE5:
+ 240               	.LBE4:
+  91:uart.c        ****   }
+ 242               	.LM18:
+ 243 004e 80E0      		ldi r24,0
+ 244 0050 91E0      		ldi r25,lo8(1)
+  97:uart.c        **** }
+ 246               	.LM19:
+ 247 0052 0895      		ret
+ 252               	.Lscope4:
+ 254               		.stabd	78,0,0
+ 257               	.global	uart_getc_f
+ 259               	uart_getc_f:
+ 260               		.stabd	46,0,0
+  98:uart.c        **** 
+  99:uart.c        **** 
+ 100:uart.c        **** 
+ 101:uart.c        **** /*
+ 102:uart.c        ****  * uart_getc_f
+ 103:uart.c        ****  * getc in stdio style.
+ 104:uart.c        ****  */
+ 105:uart.c        **** int uart_getc_f(FILE *stream) {
+ 262               	.LM20:
+ 263               	.LFBB5:
+ 264               	/* prologue: function */
+ 265               	/* frame size = 0 */
+ 266               	/* stack size = 0 */
+ 267               	.L__stack_usage = 0
+ 268               	.L14:
+ 106:uart.c        ****   uint16_t c;
+ 107:uart.c        ****   while ((c = uart_getc()) == UART_NO_DATA) {}
+ 270               	.LM21:
+ 271 0054 00D0      		rcall uart_getc
+ 272 0056 8115      		cp r24,__zero_reg__
+ 273 0058 21E0      		ldi r18,1
+ 274 005a 9207      		cpc r25,r18
+ 275 005c 01F0      		breq .L14
+ 276               	/* epilogue start */
+ 108:uart.c        ****   return c;
+ 109:uart.c        **** }
+ 278               	.LM22:
+ 279 005e 0895      		ret
+ 284               	.Lscope5:
+ 286               		.stabd	78,0,0
+ 288               	.global	uart_getc_wait
+ 290               	uart_getc_wait:
+ 291               		.stabd	46,0,0
+ 110:uart.c        **** 
+ 111:uart.c        **** 
+ 112:uart.c        **** 
+ 113:uart.c        **** /*
+ 114:uart.c        ****  * uart_getc_wait
+ 115:uart.c        ****  * Blocking call to getc. Will not return until a char is received.
+ 116:uart.c        ****  */
+ 117:uart.c        **** uint8_t uart_getc_wait(void) {
+ 293               	.LM23:
+ 294               	.LFBB6:
+ 295               	/* prologue: function */
+ 296               	/* frame size = 0 */
+ 297               	/* stack size = 0 */
+ 298               	.L__stack_usage = 0
+ 299               	.L17:
+ 118:uart.c        ****   uint16_t c;
+ 119:uart.c        ****   while ((c = uart_getc()) == UART_NO_DATA) {}
+ 301               	.LM24:
+ 302 0060 00D0      		rcall uart_getc
+ 303 0062 8115      		cp r24,__zero_reg__
+ 304 0064 21E0      		ldi r18,1
+ 305 0066 9207      		cpc r25,r18
+ 306 0068 01F0      		breq .L17
+ 307               	/* epilogue start */
+ 120:uart.c        ****   return c;
+ 121:uart.c        **** }
+ 309               	.LM25:
+ 310 006a 0895      		ret
+ 315               	.Lscope6:
+ 317               		.stabd	78,0,0
+ 320               	.global	uart_putc
+ 322               	uart_putc:
+ 323               		.stabd	46,0,0
+ 122:uart.c        **** 
+ 123:uart.c        **** 
+ 124:uart.c        **** 
+ 125:uart.c        **** /*
+ 126:uart.c        ****  * uart_putc
+ 127:uart.c        ****  * Puts a single char. Will block until there is enough space in the
+ 128:uart.c        ****  * send buffer.
+ 129:uart.c        ****  */
+ 130:uart.c        **** void uart_putc(uint8_t c) {
+ 325               	.LM26:
+ 326               	.LFBB7:
+ 327               	/* prologue: function */
+ 328               	/* frame size = 0 */
+ 329               	/* stack size = 0 */
+ 330               	.L__stack_usage = 0
+ 131:uart.c        ****   uint8_t tmp_head = (tx_head + 1) % BUFFER_SIZE;
+ 332               	.LM27:
+ 333 006c 2091 0000 		lds r18,tx_head
+ 334 0070 30E0      		ldi r19,0
+ 335 0072 2F5F      		subi r18,-1
+ 336 0074 3F4F      		sbci r19,-1
+ 337 0076 2F70      		andi r18,15
+ 338 0078 3327      		clr r19
+ 339 007a 422F      		mov r20,r18
+ 340               	.L20:
+ 132:uart.c        ****   // wait for space in buffer
+ 133:uart.c        ****   while (tmp_head == tx_tail) {
+ 342               	.LM28:
+ 343 007c 9091 0000 		lds r25,tx_tail
+ 344 0080 4917      		cp r20,r25
+ 345 0082 01F0      		breq .L20
+ 134:uart.c        ****     ;
+ 135:uart.c        ****   }
+ 136:uart.c        ****   tx_buffer[tx_head] = c;
+ 347               	.LM29:
+ 348 0084 E091 0000 		lds r30,tx_head
+ 349 0088 F0E0      		ldi r31,0
+ 350 008a E050      		subi r30,lo8(-(tx_buffer))
+ 351 008c F040      		sbci r31,hi8(-(tx_buffer))
+ 352 008e 8083      		st Z,r24
+ 137:uart.c        ****   tx_head = tmp_head;
+ 354               	.LM30:
+ 355 0090 2093 0000 		sts tx_head,r18
+ 138:uart.c        ****   // enable uart data interrupt (send data)
+ 139:uart.c        ****   UCSRB |= (1<<UDRIE);
+ 357               	.LM31:
+ 358 0094 559A      		sbi 0xa,5
+ 359 0096 0895      		ret
+ 364               	.Lscope7:
+ 366               		.stabd	78,0,0
+ 370               	.global	uart_putc_f
+ 372               	uart_putc_f:
+ 373               		.stabd	46,0,0
+ 140:uart.c        **** }
+ 141:uart.c        **** 
+ 142:uart.c        **** 
+ 143:uart.c        **** 
+ 144:uart.c        **** /*
+ 145:uart.c        ****  * uart_putc_f
+ 146:uart.c        ****  * Puts a single char. Used by printf functions.
+ 147:uart.c        ****  */
+ 148:uart.c        **** int uart_putc_f(char c, FILE *stream) {
+ 375               	.LM32:
+ 376               	.LFBB8:
+ 377               	/* prologue: function */
+ 378               	/* frame size = 0 */
+ 379               	/* stack size = 0 */
+ 380               	.L__stack_usage = 0
+ 149:uart.c        ****   uart_putc(c);
+ 382               	.LM33:
+ 383 0098 00D0      		rcall uart_putc
+ 150:uart.c        ****   return 0;
+ 151:uart.c        **** }
+ 385               	.LM34:
+ 386 009a 80E0      		ldi r24,0
+ 387 009c 90E0      		ldi r25,0
+ 388 009e 0895      		ret
+ 390               	.Lscope8:
+ 392               		.stabd	78,0,0
+ 395               	.global	uart_puts
+ 397               	uart_puts:
+ 398               		.stabd	46,0,0
+ 152:uart.c        **** 
+ 153:uart.c        **** 
+ 154:uart.c        **** 
+ 155:uart.c        **** /*
+ 156:uart.c        ****  * uart_puts
+ 157:uart.c        ****  * Sends a string.
+ 158:uart.c        ****  */
+ 159:uart.c        **** void uart_puts(const char *s) {
+ 400               	.LM35:
+ 401               	.LFBB9:
+ 402 00a0 CF93      		push r28
+ 403 00a2 DF93      		push r29
+ 404               	/* prologue: function */
+ 405               	/* frame size = 0 */
+ 406               	/* stack size = 2 */
+ 407               	.L__stack_usage = 2
+ 408 00a4 EC01      		movw r28,r24
+ 409               	.L23:
+ 160:uart.c        ****   while (*s) {
+ 411               	.LM36:
+ 412 00a6 8991      		ld r24,Y+
+ 413 00a8 8823      		tst r24
+ 414 00aa 01F0      		breq .L25
+ 161:uart.c        ****     uart_putc(*s);
+ 416               	.LM37:
+ 417 00ac 00D0      		rcall uart_putc
+ 418 00ae 00C0      		rjmp .L23
+ 419               	.L25:
+ 420               	/* epilogue start */
+ 162:uart.c        ****     s++;
+ 163:uart.c        ****   }
+ 164:uart.c        **** }
+ 422               	.LM38:
+ 423 00b0 DF91      		pop r29
+ 424 00b2 CF91      		pop r28
+ 425 00b4 0895      		ret
+ 427               	.Lscope9:
+ 429               		.stabd	78,0,0
+ 432               	.global	uart_puts_P
+ 434               	uart_puts_P:
+ 435               		.stabd	46,0,0
+ 165:uart.c        **** 
+ 166:uart.c        **** 
+ 167:uart.c        **** 
+ 168:uart.c        **** /*
+ 169:uart.c        ****  * uart_puts_P
+ 170:uart.c        ****  * Sends a PROGMEM string.
+ 171:uart.c        ****  */
+ 172:uart.c        **** void uart_puts_P(const char *s) {
+ 437               	.LM39:
+ 438               	.LFBB10:
+ 439 00b6 CF93      		push r28
+ 440 00b8 DF93      		push r29
+ 441               	/* prologue: function */
+ 442               	/* frame size = 0 */
+ 443               	/* stack size = 2 */
+ 444               	.L__stack_usage = 2
+ 445 00ba EC01      		movw r28,r24
+ 446               	.L27:
+ 447               	.LBB6:
+ 173:uart.c        ****   while (pgm_read_byte(s) != 0x00) {
+ 449               	.LM40:
+ 450 00bc CE01      		movw r24,r28
+ 451 00be FE01      		movw r30,r28
+ 452               	/* #APP */
+ 453               	 ;  173 "uart.c" 1
+ 454 00c0 2491      		lpm r18, Z
+ 455               		
+ 456               	 ;  0 "" 2
+ 457               	/* #NOAPP */
+ 458               	.LBE6:
+ 459 00c2 2223      		tst r18
+ 460 00c4 01F0      		breq .L29
+ 461               	.LBB7:
+ 174:uart.c        ****     uart_putc(pgm_read_byte(s++));
+ 463               	.LM41:
+ 464 00c6 2196      		adiw r28,1
+ 465 00c8 FC01      		movw r30,r24
+ 466               	/* #APP */
+ 467               	 ;  174 "uart.c" 1
+ 468 00ca 8491      		lpm r24, Z
+ 469               		
+ 470               	 ;  0 "" 2
+ 471               	/* #NOAPP */
+ 472               	.LBE7:
+ 473 00cc 00D0      		rcall uart_putc
+ 474 00ce 00C0      		rjmp .L27
+ 475               	.L29:
+ 476               	/* epilogue start */
+ 175:uart.c        ****   }
+ 176:uart.c        **** }
+ 478               	.LM42:
+ 479 00d0 DF91      		pop r29
+ 480 00d2 CF91      		pop r28
+ 481 00d4 0895      		ret
+ 486               	.Lscope10:
+ 488               		.stabd	78,0,0
+ 490               	.global	__vector_8
+ 492               	__vector_8:
+ 493               		.stabd	46,0,0
+ 177:uart.c        **** 
+ 178:uart.c        **** 
+ 179:uart.c        **** 
+ 180:uart.c        **** /*
+ 181:uart.c        ****  * ISR User Data Regiser Empty
+ 182:uart.c        ****  * Send a char out of buffer via UART. If sending is complete, the 
+ 183:uart.c        ****  * interrupt gets disabled.
+ 184:uart.c        ****  */
+ 185:uart.c        **** ISR(USART_UDRE_vect) {
+ 495               	.LM43:
+ 496               	.LFBB11:
+ 497 00d6 1F92      		push r1
+ 498 00d8 0F92      		push r0
+ 499 00da 0FB6      		in r0,__SREG__
+ 500 00dc 0F92      		push r0
+ 501 00de 1124      		clr __zero_reg__
+ 502 00e0 8F93      		push r24
+ 503 00e2 9F93      		push r25
+ 504 00e4 EF93      		push r30
+ 505 00e6 FF93      		push r31
+ 506               	/* prologue: Signal */
+ 507               	/* frame size = 0 */
+ 508               	/* stack size = 7 */
+ 509               	.L__stack_usage = 7
+ 186:uart.c        ****   uint8_t tmp_tail = 0;
+ 187:uart.c        ****   if (tx_head != tx_tail) {
+ 511               	.LM44:
+ 512 00e8 9091 0000 		lds r25,tx_head
+ 513 00ec 8091 0000 		lds r24,tx_tail
+ 514 00f0 9817      		cp r25,r24
+ 515 00f2 01F0      		breq .L31
+ 188:uart.c        ****     tmp_tail = (tx_tail + 1) % BUFFER_SIZE;
+ 517               	.LM45:
+ 518 00f4 8091 0000 		lds r24,tx_tail
+ 519 00f8 90E0      		ldi r25,0
+ 520 00fa 0196      		adiw r24,1
+ 521 00fc 8F70      		andi r24,15
+ 522 00fe 9927      		clr r25
+ 189:uart.c        ****     UDR = tx_buffer[tx_tail];
+ 524               	.LM46:
+ 525 0100 E091 0000 		lds r30,tx_tail
+ 526 0104 F0E0      		ldi r31,0
+ 527 0106 E050      		subi r30,lo8(-(tx_buffer))
+ 528 0108 F040      		sbci r31,hi8(-(tx_buffer))
+ 529 010a 9081      		ld r25,Z
+ 530 010c 9CB9      		out 0xc,r25
+ 190:uart.c        ****     tx_tail = tmp_tail;
+ 532               	.LM47:
+ 533 010e 8093 0000 		sts tx_tail,r24
+ 534 0112 00C0      		rjmp .L30
+ 535               	.L31:
+ 191:uart.c        ****   }
+ 192:uart.c        ****   else {
+ 193:uart.c        ****     // disable this interrupt if nothing more to send
+ 194:uart.c        ****     UCSRB &= ~(1 << UDRIE);
+ 537               	.LM48:
+ 538 0114 5598      		cbi 0xa,5
+ 539               	.L30:
+ 540               	/* epilogue start */
+ 195:uart.c        ****   }
+ 196:uart.c        **** }
+ 542               	.LM49:
+ 543 0116 FF91      		pop r31
+ 544 0118 EF91      		pop r30
+ 545 011a 9F91      		pop r25
+ 546 011c 8F91      		pop r24
+ 547 011e 0F90      		pop r0
+ 548 0120 0FBE      		out __SREG__,r0
+ 549 0122 0F90      		pop r0
+ 550 0124 1F90      		pop r1
+ 551 0126 1895      		reti
+ 553               	.Lscope11:
+ 555               		.stabd	78,0,0
+ 557               	.global	__vector_7
+ 559               	__vector_7:
+ 560               		.stabd	46,0,0
+ 197:uart.c        **** 
+ 198:uart.c        **** 
+ 199:uart.c        **** 
+ 200:uart.c        **** /*
+ 201:uart.c        ****  * ISR RX complete
+ 202:uart.c        ****  * Receives a char from UART and stores it in ring buffer.
+ 203:uart.c        ****  */
+ 204:uart.c        **** ISR(USART_RX_vect) {
+ 562               	.LM50:
+ 563               	.LFBB12:
+ 564 0128 1F92      		push r1
+ 565 012a 0F92      		push r0
+ 566 012c 0FB6      		in r0,__SREG__
+ 567 012e 0F92      		push r0
+ 568 0130 1124      		clr __zero_reg__
+ 569 0132 2F93      		push r18
+ 570 0134 8F93      		push r24
+ 571 0136 9F93      		push r25
+ 572 0138 EF93      		push r30
+ 573 013a FF93      		push r31
+ 574               	/* prologue: Signal */
+ 575               	/* frame size = 0 */
+ 576               	/* stack size = 8 */
+ 577               	.L__stack_usage = 8
+ 205:uart.c        ****   uint8_t tmp_head = 0;
+ 206:uart.c        ****   tmp_head = (rx_head + 1) % BUFFER_SIZE;
+ 579               	.LM51:
+ 580 013c 8091 0000 		lds r24,rx_head
+ 581 0140 90E0      		ldi r25,0
+ 582 0142 0196      		adiw r24,1
+ 583 0144 8F70      		andi r24,15
+ 584 0146 9927      		clr r25
+ 207:uart.c        ****   if (tmp_head == rx_tail) {
+ 586               	.LM52:
+ 587 0148 2091 0000 		lds r18,rx_tail
+ 588 014c 2817      		cp r18,r24
+ 589 014e 01F0      		breq .L33
+ 208:uart.c        ****     // buffer overflow error!
+ 209:uart.c        ****   }
+ 210:uart.c        ****   else {
+ 211:uart.c        ****     rx_buffer[rx_head] = UDR;
+ 591               	.LM53:
+ 592 0150 E091 0000 		lds r30,rx_head
+ 593 0154 F0E0      		ldi r31,0
+ 594 0156 9CB1      		in r25,0xc
+ 595 0158 E050      		subi r30,lo8(-(rx_buffer))
+ 596 015a F040      		sbci r31,hi8(-(rx_buffer))
+ 597 015c 9083      		st Z,r25
+ 212:uart.c        ****     rx_head = tmp_head;
+ 599               	.LM54:
+ 600 015e 8093 0000 		sts rx_head,r24
+ 601               	.L33:
+ 602               	/* epilogue start */
+ 213:uart.c        ****   }
+ 214:uart.c        **** }
+ 604               	.LM55:
+ 605 0162 FF91      		pop r31
+ 606 0164 EF91      		pop r30
+ 607 0166 9F91      		pop r25
+ 608 0168 8F91      		pop r24
+ 609 016a 2F91      		pop r18
+ 610 016c 0F90      		pop r0
+ 611 016e 0FBE      		out __SREG__,r0
+ 612 0170 0F90      		pop r0
+ 613 0172 1F90      		pop r1
+ 614 0174 1895      		reti
+ 616               	.Lscope12:
+ 618               		.stabd	78,0,0
+ 619               		.data
+ 622               	sent:
+ 623 0000 01        		.byte	1
+ 624               		.local	tx_tail
+ 625               		.comm	tx_tail,1,1
+ 626               		.local	tx_head
+ 627               		.comm	tx_head,1,1
+ 628               		.local	rx_tail
+ 629               		.comm	rx_tail,1,1
+ 630               		.local	rx_head
+ 631               		.comm	rx_head,1,1
+ 634               	tx_buffer:
+ 635 0001 7878 7878 		.ascii	"xxxxxxxxxxxxxxxx"
+ 635      7878 7878 
+ 635      7878 7878 
+ 635      7878 7878 
+ 638               	rx_buffer:
+ 639 0011 7878 7878 		.ascii	"xxxxxxxxxxxxxxxx"
+ 639      7878 7878 
+ 639      7878 7878 
+ 639      7878 7878 
+ 647               		.text
+ 649               	.Letext0:
+ 650               		.ident	"GCC: (GNU) 4.8.1"
+ 651               	.global __do_copy_data
+ 652               	.global __do_clear_bss
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 uart.c
+     /tmp/ccKNpdaJ.s:2      *ABS*:000000000000003d __SP_L__
+     /tmp/ccKNpdaJ.s:3      *ABS*:000000000000003f __SREG__
+     /tmp/ccKNpdaJ.s:4      *ABS*:0000000000000000 __tmp_reg__
+     /tmp/ccKNpdaJ.s:5      *ABS*:0000000000000001 __zero_reg__
+     /tmp/ccKNpdaJ.s:114    .text:0000000000000000 init_uart
+     /tmp/ccKNpdaJ.s:147    .text:0000000000000010 send_uart
+     /tmp/ccKNpdaJ.s:172    .text:0000000000000018 receive_uart
+     /tmp/ccKNpdaJ.s:199    .text:0000000000000020 uart_getc
+     /tmp/ccKNpdaJ.s:629    .bss:0000000000000003 rx_head
+     /tmp/ccKNpdaJ.s:627    .bss:0000000000000002 rx_tail
+     /tmp/ccKNpdaJ.s:638    .data:0000000000000011 rx_buffer
+     /tmp/ccKNpdaJ.s:259    .text:0000000000000054 uart_getc_f
+     /tmp/ccKNpdaJ.s:290    .text:0000000000000060 uart_getc_wait
+     /tmp/ccKNpdaJ.s:322    .text:000000000000006c uart_putc
+     /tmp/ccKNpdaJ.s:625    .bss:0000000000000001 tx_head
+                             .bss:0000000000000000 tx_tail
+     /tmp/ccKNpdaJ.s:634    .data:0000000000000001 tx_buffer
+     /tmp/ccKNpdaJ.s:372    .text:0000000000000098 uart_putc_f
+     /tmp/ccKNpdaJ.s:397    .text:00000000000000a0 uart_puts
+     /tmp/ccKNpdaJ.s:434    .text:00000000000000b6 uart_puts_P
+     /tmp/ccKNpdaJ.s:492    .text:00000000000000d6 __vector_8
+     /tmp/ccKNpdaJ.s:559    .text:0000000000000128 __vector_7
+     /tmp/ccKNpdaJ.s:622    .data:0000000000000000 sent
+
+UNDEFINED SYMBOLS
+__do_copy_data
+__do_clear_bss
