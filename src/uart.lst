@@ -98,12 +98,12 @@
  153               	/* frame size = 0 */
  154               	/* stack size = 0 */
  155               	.L__stack_usage = 0
- 156               	.L4:
+ 156               	.L3:
   62:uart.c        ****   // wait for empty data register
   63:uart.c        ****   while (!(UCSRA & (1<<UDRE)));
  158               	.LM6:
  159 0010 5D9B      		sbis 0xb,5
- 160 0012 00C0      		rjmp .L4
+ 160 0012 00C0      		rjmp .L3
   64:uart.c        ****   // set data into data register
   65:uart.c        ****   UDR = c;
  162               	.LM7:
@@ -168,7 +168,7 @@
  210 0020 9091 0000 		lds r25,rx_head
  211 0024 8091 0000 		lds r24,rx_tail
  212 0028 9817      		cp r25,r24
- 213 002a 01F0      		breq .L11
+ 213 002a 01F0      		breq .L12
  214               	.LBB4:
  215               	.LBB5:
   91:uart.c        ****     return UART_NO_DATA;
@@ -195,7 +195,7 @@
  235               	.LM17:
  236 004a 90E0      		ldi r25,0
  237 004c 0895      		ret
- 238               	.L11:
+ 238               	.L12:
  239               	.LBE5:
  240               	.LBE4:
   91:uart.c        ****   }
@@ -257,7 +257,7 @@
  296               	/* frame size = 0 */
  297               	/* stack size = 0 */
  298               	.L__stack_usage = 0
- 299               	.L17:
+ 299               	.L18:
  118:uart.c        ****   uint16_t c;
  119:uart.c        ****   while ((c = uart_getc()) == UART_NO_DATA) {}
  301               	.LM24:
@@ -265,7 +265,7 @@
  303 0062 8115      		cp r24,__zero_reg__
  304 0064 21E0      		ldi r18,1
  305 0066 9207      		cpc r25,r18
- 306 0068 01F0      		breq .L17
+ 306 0068 01F0      		breq .L18
  307               	/* epilogue start */
  120:uart.c        ****   return c;
  121:uart.c        **** }
@@ -300,13 +300,13 @@
  337 0076 2F70      		andi r18,15
  338 0078 3327      		clr r19
  339 007a 422F      		mov r20,r18
- 340               	.L20:
+ 340               	.L22:
  132:uart.c        ****   // wait for space in buffer
  133:uart.c        ****   while (tmp_head == tx_tail) {
  342               	.LM28:
  343 007c 9091 0000 		lds r25,tx_tail
  344 0080 4917      		cp r20,r25
- 345 0082 01F0      		breq .L20
+ 345 0082 01F0      		breq .L22
  134:uart.c        ****     ;
  135:uart.c        ****   }
  136:uart.c        ****   tx_buffer[tx_head] = c;
@@ -375,17 +375,17 @@
  406               	/* stack size = 2 */
  407               	.L__stack_usage = 2
  408 00a4 EC01      		movw r28,r24
- 409               	.L23:
+ 409               	.L26:
  160:uart.c        ****   while (*s) {
  411               	.LM36:
  412 00a6 8991      		ld r24,Y+
  413 00a8 8823      		tst r24
- 414 00aa 01F0      		breq .L25
+ 414 00aa 01F0      		breq .L28
  161:uart.c        ****     uart_putc(*s);
  416               	.LM37:
  417 00ac 00D0      		rcall uart_putc
- 418 00ae 00C0      		rjmp .L23
- 419               	.L25:
+ 418 00ae 00C0      		rjmp .L26
+ 419               	.L28:
  420               	/* epilogue start */
  162:uart.c        ****     s++;
  163:uart.c        ****   }
@@ -416,7 +416,7 @@
  443               	/* stack size = 2 */
  444               	.L__stack_usage = 2
  445 00ba EC01      		movw r28,r24
- 446               	.L27:
+ 446               	.L30:
  447               	.LBB6:
  173:uart.c        ****   while (pgm_read_byte(s) != 0x00) {
  449               	.LM40:
@@ -430,7 +430,7 @@
  457               	/* #NOAPP */
  458               	.LBE6:
  459 00c2 2223      		tst r18
- 460 00c4 01F0      		breq .L29
+ 460 00c4 01F0      		breq .L32
  461               	.LBB7:
  174:uart.c        ****     uart_putc(pgm_read_byte(s++));
  463               	.LM41:
@@ -444,8 +444,8 @@
  471               	/* #NOAPP */
  472               	.LBE7:
  473 00cc 00D0      		rcall uart_putc
- 474 00ce 00C0      		rjmp .L27
- 475               	.L29:
+ 474 00ce 00C0      		rjmp .L30
+ 475               	.L32:
  476               	/* epilogue start */
  175:uart.c        ****   }
  176:uart.c        **** }
@@ -488,7 +488,7 @@
  512 00e8 9091 0000 		lds r25,tx_head
  513 00ec 8091 0000 		lds r24,tx_tail
  514 00f0 9817      		cp r25,r24
- 515 00f2 01F0      		breq .L31
+ 515 00f2 01F0      		breq .L34
  188:uart.c        ****     tmp_tail = (tx_tail + 1) % BUFFER_SIZE;
  517               	.LM45:
  518 00f4 8091 0000 		lds r24,tx_tail
@@ -507,15 +507,15 @@
  190:uart.c        ****     tx_tail = tmp_tail;
  532               	.LM47:
  533 010e 8093 0000 		sts tx_tail,r24
- 534 0112 00C0      		rjmp .L30
- 535               	.L31:
+ 534 0112 00C0      		rjmp .L33
+ 535               	.L34:
  191:uart.c        ****   }
  192:uart.c        ****   else {
  193:uart.c        ****     // disable this interrupt if nothing more to send
  194:uart.c        ****     UCSRB &= ~(1 << UDRIE);
  537               	.LM48:
  538 0114 5598      		cbi 0xa,5
- 539               	.L30:
+ 539               	.L33:
  540               	/* epilogue start */
  195:uart.c        ****   }
  196:uart.c        **** }
@@ -570,7 +570,7 @@
  586               	.LM52:
  587 0148 2091 0000 		lds r18,rx_tail
  588 014c 2817      		cp r18,r24
- 589 014e 01F0      		breq .L33
+ 589 014e 01F0      		breq .L36
  208:uart.c        ****     // buffer overflow error!
  209:uart.c        ****   }
  210:uart.c        ****   else {
@@ -585,7 +585,7 @@
  212:uart.c        ****     rx_head = tmp_head;
  599               	.LM54:
  600 015e 8093 0000 		sts rx_head,r24
- 601               	.L33:
+ 601               	.L36:
  602               	/* epilogue start */
  213:uart.c        ****   }
  214:uart.c        **** }
@@ -625,34 +625,34 @@
  639      7878 7878 
  647               		.text
  649               	.Letext0:
- 650               		.ident	"GCC: (GNU) 4.8.1"
+ 650               		.ident	"GCC: (GNU) 4.9.2"
  651               	.global __do_copy_data
  652               	.global __do_clear_bss
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 uart.c
-     /tmp/ccKNpdaJ.s:2      *ABS*:000000000000003d __SP_L__
-     /tmp/ccKNpdaJ.s:3      *ABS*:000000000000003f __SREG__
-     /tmp/ccKNpdaJ.s:4      *ABS*:0000000000000000 __tmp_reg__
-     /tmp/ccKNpdaJ.s:5      *ABS*:0000000000000001 __zero_reg__
-     /tmp/ccKNpdaJ.s:114    .text:0000000000000000 init_uart
-     /tmp/ccKNpdaJ.s:147    .text:0000000000000010 send_uart
-     /tmp/ccKNpdaJ.s:172    .text:0000000000000018 receive_uart
-     /tmp/ccKNpdaJ.s:199    .text:0000000000000020 uart_getc
-     /tmp/ccKNpdaJ.s:629    .bss:0000000000000003 rx_head
-     /tmp/ccKNpdaJ.s:627    .bss:0000000000000002 rx_tail
-     /tmp/ccKNpdaJ.s:638    .data:0000000000000011 rx_buffer
-     /tmp/ccKNpdaJ.s:259    .text:0000000000000054 uart_getc_f
-     /tmp/ccKNpdaJ.s:290    .text:0000000000000060 uart_getc_wait
-     /tmp/ccKNpdaJ.s:322    .text:000000000000006c uart_putc
-     /tmp/ccKNpdaJ.s:625    .bss:0000000000000001 tx_head
+     /tmp/cc825gg6.s:2      *ABS*:000000000000003d __SP_L__
+     /tmp/cc825gg6.s:3      *ABS*:000000000000003f __SREG__
+     /tmp/cc825gg6.s:4      *ABS*:0000000000000000 __tmp_reg__
+     /tmp/cc825gg6.s:5      *ABS*:0000000000000001 __zero_reg__
+     /tmp/cc825gg6.s:114    .text:0000000000000000 init_uart
+     /tmp/cc825gg6.s:147    .text:0000000000000010 send_uart
+     /tmp/cc825gg6.s:172    .text:0000000000000018 receive_uart
+     /tmp/cc825gg6.s:199    .text:0000000000000020 uart_getc
+     /tmp/cc825gg6.s:629    .bss:0000000000000003 rx_head
+     /tmp/cc825gg6.s:627    .bss:0000000000000002 rx_tail
+     /tmp/cc825gg6.s:638    .data:0000000000000011 rx_buffer
+     /tmp/cc825gg6.s:259    .text:0000000000000054 uart_getc_f
+     /tmp/cc825gg6.s:290    .text:0000000000000060 uart_getc_wait
+     /tmp/cc825gg6.s:322    .text:000000000000006c uart_putc
+     /tmp/cc825gg6.s:625    .bss:0000000000000001 tx_head
                              .bss:0000000000000000 tx_tail
-     /tmp/ccKNpdaJ.s:634    .data:0000000000000001 tx_buffer
-     /tmp/ccKNpdaJ.s:372    .text:0000000000000098 uart_putc_f
-     /tmp/ccKNpdaJ.s:397    .text:00000000000000a0 uart_puts
-     /tmp/ccKNpdaJ.s:434    .text:00000000000000b6 uart_puts_P
-     /tmp/ccKNpdaJ.s:492    .text:00000000000000d6 __vector_8
-     /tmp/ccKNpdaJ.s:559    .text:0000000000000128 __vector_7
-     /tmp/ccKNpdaJ.s:622    .data:0000000000000000 sent
+     /tmp/cc825gg6.s:634    .data:0000000000000001 tx_buffer
+     /tmp/cc825gg6.s:372    .text:0000000000000098 uart_putc_f
+     /tmp/cc825gg6.s:397    .text:00000000000000a0 uart_puts
+     /tmp/cc825gg6.s:434    .text:00000000000000b6 uart_puts_P
+     /tmp/cc825gg6.s:492    .text:00000000000000d6 __vector_8
+     /tmp/cc825gg6.s:559    .text:0000000000000128 __vector_7
+     /tmp/cc825gg6.s:622    .data:0000000000000000 sent
 
 UNDEFINED SYMBOLS
 __do_copy_data

@@ -294,7 +294,7 @@
  193               	.LM8:
  194 0012 28EC      		ldi r18,lo8(-56)
  195 0014 30E0      		ldi r19,0
- 196               	.L6:
+ 196               	.L5:
  197 0016 F901      		movw r30,r18
  198               	/* #APP */
  199               	 ;  105 "/usr/lib/avr/include/util/delay_basic.h" 1
@@ -481,61 +481,60 @@
  173:/usr/lib/avr/include/util/delay.h **** 		__ticks = (uint16_t) (__ms * 10.0);
  174:/usr/lib/avr/include/util/delay.h **** 		while(__ticks)
  210               	.LM9:
- 211 001e 0097      		sbiw r24,0
- 212 0020 01F4      		brne .L6
- 213               	.LBE61:
- 214               	.LBE60:
- 216               	.Ltext3:
+ 211 001e 01F4      		brne .L5
+ 212               	.LBE61:
+ 213               	.LBE60:
+ 215               	.Ltext3:
  126:main.c        ****   _delay_ms(500);
  127:main.c        ****   // set WAKE as input
  128:main.c        ****   DDRD &= ~_BV(PIN_WAKE);
- 218               	.LM10:
- 219 0022 8B98      		cbi 0x11,3
+ 217               	.LM10:
+ 218 0020 8B98      		cbi 0x11,3
  129:main.c        ****   PORTD |= _BV(PIN_WAKE); // with active pull-up
- 221               	.LM11:
- 222 0024 939A      		sbi 0x12,3
+ 220               	.LM11:
+ 221 0022 939A      		sbi 0x12,3
  130:main.c        ****   GIMSK  |= _BV(INT1);  // enable INT1 for WAKE
- 224               	.LM12:
- 225 0026 8BB7      		in r24,0x3b
- 226 0028 8068      		ori r24,lo8(-128)
- 227 002a 8BBF      		out 0x3b,r24
- 228 002c 0895      		ret
- 230               	.Lscope4:
- 232               		.stabd	78,0,0
- 235               	raspi_off:
- 236               		.stabd	46,0,0
+ 223               	.LM12:
+ 224 0024 8BB7      		in r24,0x3b
+ 225 0026 8068      		ori r24,lo8(-128)
+ 226 0028 8BBF      		out 0x3b,r24
+ 227 002a 0895      		ret
+ 229               	.Lscope4:
+ 231               		.stabd	78,0,0
+ 234               	raspi_off:
+ 235               		.stabd	46,0,0
  131:main.c        **** }
  132:main.c        **** 
  133:main.c        **** static void raspi_off() {
- 238               	.LM13:
- 239               	.LFBB5:
- 240               	/* prologue: function */
- 241               	/* frame size = 0 */
- 242               	/* stack size = 0 */
- 243               	.L__stack_usage = 0
+ 237               	.LM13:
+ 238               	.LFBB5:
+ 239               	/* prologue: function */
+ 240               	/* frame size = 0 */
+ 241               	/* stack size = 0 */
+ 242               	.L__stack_usage = 0
  134:main.c        ****   PORTA &= ~(_BV(PIN_RASPI_ON));
- 245               	.LM14:
- 246 002e D998      		cbi 0x1b,1
+ 244               	.LM14:
+ 245 002c D998      		cbi 0x1b,1
  135:main.c        ****   GIMSK  &= ~_BV(INT1); // disable INT1 for wake
- 248               	.LM15:
- 249 0030 8BB7      		in r24,0x3b
- 250 0032 8F77      		andi r24,lo8(127)
- 251 0034 8BBF      		out 0x3b,r24
+ 247               	.LM15:
+ 248 002e 8BB7      		in r24,0x3b
+ 249 0030 8F77      		andi r24,lo8(127)
+ 250 0032 8BBF      		out 0x3b,r24
  136:main.c        ****   // set WAKE as OUTPUT
  137:main.c        ****   DDRD |= _BV(PIN_WAKE);
- 253               	.LM16:
- 254 0036 8B9A      		sbi 0x11,3
+ 252               	.LM16:
+ 253 0034 8B9A      		sbi 0x11,3
  138:main.c        ****   // and value HIGH
  139:main.c        ****   PORTD |= _BV(PIN_WAKE);
- 256               	.LM17:
- 257 0038 939A      		sbi 0x12,3
- 258 003a 0895      		ret
- 260               	.Lscope5:
- 262               		.stabd	78,0,0
- 263               		.section	.text.startup,"ax",@progbits
- 265               	.global	main
- 267               	main:
- 268               		.stabd	46,0,0
+ 255               	.LM17:
+ 256 0036 939A      		sbi 0x12,3
+ 257 0038 0895      		ret
+ 259               	.Lscope5:
+ 261               		.stabd	78,0,0
+ 262               		.section	.text.startup,"ax",@progbits
+ 264               	.global	main
+ 266               	main:
+ 267               		.stabd	46,0,0
  140:main.c        **** }
  141:main.c        **** 
  142:main.c        **** static void nfc_on() {
@@ -586,264 +585,260 @@
  187:main.c        **** static int shutdown_timeout = 0;
  188:main.c        **** 
  189:main.c        **** int main() {
- 270               	.LM18:
- 271               	.LFBB6:
- 272               	/* prologue: function */
- 273               	/* frame size = 0 */
- 274               	/* stack size = 0 */
- 275               	.L__stack_usage = 0
+ 269               	.LM18:
+ 270               	.LFBB6:
+ 271               	/* prologue: function */
+ 272               	/* frame size = 0 */
+ 273               	/* stack size = 0 */
+ 274               	.L__stack_usage = 0
  190:main.c        ****   // safety precausion concerning watchdog reset:
  191:main.c        ****   if(MCUSR & _BV(WDRF)) { // If a reset was caused by the Watchdog Timer...
- 277               	.LM19:
- 278 0000 04B6      		in __tmp_reg__,0x34
- 279 0002 03FE      		sbrs __tmp_reg__,3
- 280 0004 00C0      		rjmp .L10
+ 276               	.LM19:
+ 277 0000 04B6      		in __tmp_reg__,0x34
+ 278 0002 03FE      		sbrs __tmp_reg__,3
+ 279 0004 00C0      		rjmp .L10
  192:main.c        ****     MCUSR &= ~_BV(WDRF);  // Clear the WDT reset flag
- 282               	.LM20:
- 283 0006 84B7      		in r24,0x34
- 284 0008 877F      		andi r24,lo8(-9)
- 285 000a 84BF      		out 0x34,r24
+ 281               	.LM20:
+ 282 0006 84B7      		in r24,0x34
+ 283 0008 877F      		andi r24,lo8(-9)
+ 284 000a 84BF      		out 0x34,r24
  193:main.c        ****     WDTCSR |= (_BV(WDCE) | _BV(WDE));   // Enable the WD Change Bit
- 287               	.LM21:
- 288 000c 81B5      		in r24,0x21
- 289 000e 8861      		ori r24,lo8(24)
- 290 0010 81BD      		out 0x21,r24
+ 286               	.LM21:
+ 287 000c 81B5      		in r24,0x21
+ 288 000e 8861      		ori r24,lo8(24)
+ 289 0010 81BD      		out 0x21,r24
  194:main.c        ****     WDTCSR = 0x00;        // Disable the WDT
- 292               	.LM22:
- 293 0012 11BC      		out 0x21,__zero_reg__
- 294               	.L10:
- 295               	.LBB150:
- 296               	.LBB151:
+ 291               	.LM22:
+ 292 0012 11BC      		out 0x21,__zero_reg__
+ 293               	.L10:
+ 294               	.LBB150:
+ 295               	.LBB151:
   47:main.c        ****   DDRA |= _BV(PIN_RASPI_ON) | _BV(PIN_NFC_ON);
- 298               	.LM23:
- 299 0014 1BBA      		out 0x1b,__zero_reg__
+ 297               	.LM23:
+ 298 0014 1BBA      		out 0x1b,__zero_reg__
   48:main.c        **** 
- 301               	.LM24:
- 302 0016 8AB3      		in r24,0x1a
- 303 0018 8360      		ori r24,lo8(3)
- 304 001a 8ABB      		out 0x1a,r24
+ 300               	.LM24:
+ 301 0016 8AB3      		in r24,0x1a
+ 302 0018 8360      		ori r24,lo8(3)
+ 303 001a 8ABB      		out 0x1a,r24
   50:main.c        ****   DDRB |= _BV(PIN_LED1)     | _BV(PIN_LED2) | _BV(PIN_GPIO17) | _BV(PIN_GPIO18);
- 306               	.LM25:
- 307 001c 18BA      		out 0x18,__zero_reg__
+ 305               	.LM25:
+ 306 001c 18BA      		out 0x18,__zero_reg__
   51:main.c        ****   DDRB &= ~_BV(PIN_POWER_OK);
- 309               	.LM26:
- 310 001e 87B3      		in r24,0x17
- 311 0020 8761      		ori r24,lo8(23)
- 312 0022 87BB      		out 0x17,r24
+ 308               	.LM26:
+ 309 001e 87B3      		in r24,0x17
+ 310 0020 8761      		ori r24,lo8(23)
+ 311 0022 87BB      		out 0x17,r24
   52:main.c        ****   //PORTB &= ~_BV(PIN_POWER_OK); // disable internal pull-up
- 314               	.LM27:
- 315 0024 BB98      		cbi 0x17,3
+ 313               	.LM27:
+ 314 0024 BB98      		cbi 0x17,3
   54:main.c        **** 
- 317               	.LM28:
- 318 0026 86E0      		ldi r24,lo8(6)
- 319 0028 88BB      		out 0x18,r24
+ 316               	.LM28:
+ 317 0026 86E0      		ldi r24,lo8(6)
+ 318 0028 88BB      		out 0x18,r24
   56:main.c        ****   //DDRD = _BV(PIN_LED0) | _BV(PIN_SHUTDOWN);
- 321               	.LM29:
- 322 002a 12BA      		out 0x12,__zero_reg__
+ 320               	.LM29:
+ 321 002a 12BA      		out 0x12,__zero_reg__
   58:main.c        ****   //DDRD &= ~(_BV(PIN_BUTTON) | _BV(PIN_WAKE) | _BV(PIN_SHUTD_BUSY));
- 324               	.LM30:
- 325 002c 88E5      		ldi r24,lo8(88)
- 326 002e 81BB      		out 0x11,r24
+ 323               	.LM30:
+ 324 002c 88E5      		ldi r24,lo8(88)
+ 325 002e 81BB      		out 0x11,r24
   61:main.c        **** 
- 328               	.LM31:
- 329 0030 84E1      		ldi r24,lo8(20)
- 330 0032 82BB      		out 0x12,r24
+ 327               	.LM31:
+ 328 0030 84E1      		ldi r24,lo8(20)
+ 329 0032 82BB      		out 0x12,r24
   71:main.c        ****   GIMSK  = _BV(INT0);  // enable INT0 only; INT1 is only enabled when raspi is on
- 332               	.LM32:
- 333 0034 15BE      		out 0x35,__zero_reg__
+ 331               	.LM32:
+ 332 0034 15BE      		out 0x35,__zero_reg__
   72:main.c        ****   //GIMSK = 0;
- 335               	.LM33:
- 336 0036 80E4      		ldi r24,lo8(64)
- 337 0038 8BBF      		out 0x3b,r24
+ 334               	.LM33:
+ 335 0036 80E4      		ldi r24,lo8(64)
+ 336 0038 8BBF      		out 0x3b,r24
   78:main.c        **** 
- 339               	.LM34:
- 340 003a 85B7      		in r24,0x35
- 341 003c 8F7A      		andi r24,lo8(-81)
- 342 003e 85BF      		out 0x35,r24
+ 338               	.LM34:
+ 339 003a 85B7      		in r24,0x35
+ 340 003c 8F7A      		andi r24,lo8(-81)
+ 341 003e 85BF      		out 0x35,r24
   81:main.c        ****   WDTCSR =   _BV(WDIE) |              // Interupt Mode
- 344               	.LM35:
- 345 0040 81B5      		in r24,0x21
- 346 0042 8861      		ori r24,lo8(24)
- 347 0044 81BD      		out 0x21,r24
+ 343               	.LM35:
+ 344 0040 81B5      		in r24,0x21
+ 345 0042 8861      		ori r24,lo8(24)
+ 346 0044 81BD      		out 0x21,r24
   82:main.c        ****              _BV(WDP2) | _BV(WDP1);   // Set Timeout to ~1 seconds
- 349               	.LM36:
- 350 0046 86E4      		ldi r24,lo8(70)
- 351 0048 81BD      		out 0x21,r24
+ 348               	.LM36:
+ 349 0046 86E4      		ldi r24,lo8(70)
+ 350 0048 81BD      		out 0x21,r24
   85:main.c        **** }
- 353               	.LM37:
- 354               	/* #APP */
- 355               	 ;  85 "main.c" 1
- 356 004a 7894      		sei
- 357               	 ;  0 "" 2
- 358               	/* #NOAPP */
- 359               	.LBE151:
- 360               	.LBE150:
- 361               	.LBB152:
- 362               	.LBB153:
+ 352               	.LM37:
+ 353               	/* #APP */
+ 354               	 ;  85 "main.c" 1
+ 355 004a 7894      		sei
+ 356               	 ;  0 "" 2
+ 357               	/* #NOAPP */
+ 358               	.LBE151:
+ 359               	.LBE150:
+ 360               	.LBB152:
+ 361               	.LBB153:
  167:main.c        ****   led0_on();
- 364               	.LM38:
- 365 004c 00D0      		rcall raspi_off
- 366               	.LBB154:
- 367               	.LBB155:
+ 363               	.LM38:
+ 364 004c 00D0      		rcall raspi_off
+ 365               	.LBB154:
+ 366               	.LBB155:
   89:main.c        **** }
- 369               	.LM39:
- 370 004e 969A      		sbi 0x12,6
- 371 0050 80ED      		ldi r24,lo8(-48)
- 372 0052 97E0      		ldi r25,lo8(7)
- 373               	.LBE155:
- 374               	.LBE154:
- 375               	.LBB156:
- 376               	.LBB157:
- 377               	.LBB158:
- 378               	.LBB159:
- 380               	.Ltext4:
- 382               	.LM40:
- 383 0054 28EC      		ldi r18,lo8(-56)
- 384 0056 30E0      		ldi r19,0
- 385               	.L12:
- 386 0058 F901      		movw r30,r18
- 387               	/* #APP */
- 388               	 ;  105 "/usr/lib/avr/include/util/delay_basic.h" 1
- 389 005a 3197      		1: sbiw r30,1
- 390 005c 01F4      		brne 1b
- 391               	 ;  0 "" 2
- 392               	/* #NOAPP */
- 393 005e 0197      		sbiw r24,1
- 394               	.LBE159:
- 395               	.LBE158:
- 397               	.Ltext5:
- 399               	.LM41:
- 400 0060 0097      		sbiw r24,0
- 401 0062 01F4      		brne .L12
- 402               	.LBE157:
- 403               	.LBE156:
- 404               	.LBB160:
- 405               	.LBB161:
- 407               	.Ltext6:
+ 368               	.LM39:
+ 369 004e 969A      		sbi 0x12,6
+ 370 0050 80ED      		ldi r24,lo8(-48)
+ 371 0052 97E0      		ldi r25,lo8(7)
+ 372               	.LBE155:
+ 373               	.LBE154:
+ 374               	.LBB156:
+ 375               	.LBB157:
+ 376               	.LBB158:
+ 377               	.LBB159:
+ 379               	.Ltext4:
+ 381               	.LM40:
+ 382 0054 28EC      		ldi r18,lo8(-56)
+ 383 0056 30E0      		ldi r19,0
+ 384               	.L11:
+ 385 0058 F901      		movw r30,r18
+ 386               	/* #APP */
+ 387               	 ;  105 "/usr/lib/avr/include/util/delay_basic.h" 1
+ 388 005a 3197      		1: sbiw r30,1
+ 389 005c 01F4      		brne 1b
+ 390               	 ;  0 "" 2
+ 391               	/* #NOAPP */
+ 392 005e 0197      		sbiw r24,1
+ 393               	.LBE159:
+ 394               	.LBE158:
+ 396               	.Ltext5:
+ 398               	.LM41:
+ 399 0060 01F4      		brne .L11
+ 400               	.LBE157:
+ 401               	.LBE156:
+ 402               	.LBB160:
+ 403               	.LBB161:
+ 405               	.Ltext6:
  101:main.c        **** }
- 409               	.LM42:
- 410 0064 C49A      		sbi 0x18,4
- 411 0066 80ED      		ldi r24,lo8(-48)
- 412 0068 97E0      		ldi r25,lo8(7)
- 413               	.LBE161:
- 414               	.LBE160:
- 415               	.LBB162:
- 416               	.LBB163:
- 417               	.LBB164:
- 418               	.LBB165:
- 420               	.Ltext7:
- 422               	.LM43:
- 423 006a 28EC      		ldi r18,lo8(-56)
- 424 006c 30E0      		ldi r19,0
- 425               	.L14:
- 426 006e F901      		movw r30,r18
- 427               	/* #APP */
- 428               	 ;  105 "/usr/lib/avr/include/util/delay_basic.h" 1
- 429 0070 3197      		1: sbiw r30,1
- 430 0072 01F4      		brne 1b
- 431               	 ;  0 "" 2
- 432               	/* #NOAPP */
- 433 0074 0197      		sbiw r24,1
- 434               	.LBE165:
- 435               	.LBE164:
- 437               	.Ltext8:
- 439               	.LM44:
- 440 0076 0097      		sbiw r24,0
- 441 0078 01F4      		brne .L14
- 442               	.LBE163:
- 443               	.LBE162:
- 445               	.Ltext9:
+ 407               	.LM42:
+ 408 0062 C49A      		sbi 0x18,4
+ 409 0064 80ED      		ldi r24,lo8(-48)
+ 410 0066 97E0      		ldi r25,lo8(7)
+ 411               	.LBE161:
+ 412               	.LBE160:
+ 413               	.LBB162:
+ 414               	.LBB163:
+ 415               	.LBB164:
+ 416               	.LBB165:
+ 418               	.Ltext7:
+ 420               	.LM43:
+ 421 0068 28EC      		ldi r18,lo8(-56)
+ 422 006a 30E0      		ldi r19,0
+ 423               	.L12:
+ 424 006c F901      		movw r30,r18
+ 425               	/* #APP */
+ 426               	 ;  105 "/usr/lib/avr/include/util/delay_basic.h" 1
+ 427 006e 3197      		1: sbiw r30,1
+ 428 0070 01F4      		brne 1b
+ 429               	 ;  0 "" 2
+ 430               	/* #NOAPP */
+ 431 0072 0197      		sbiw r24,1
+ 432               	.LBE165:
+ 433               	.LBE164:
+ 435               	.Ltext8:
+ 437               	.LM44:
+ 438 0074 01F4      		brne .L12
+ 439               	.LBE163:
+ 440               	.LBE162:
+ 442               	.Ltext9:
  172:main.c        ****   led2_on();
- 447               	.LM45:
- 448 007a 00D0      		rcall led0_off
- 449               	.LBB166:
- 450               	.LBB167:
+ 444               	.LM45:
+ 445 0076 00D0      		rcall led0_off
+ 446               	.LBB166:
+ 447               	.LBB167:
  113:main.c        **** }
- 452               	.LM46:
- 453 007c C09A      		sbi 0x18,0
- 454 007e 80ED      		ldi r24,lo8(-48)
- 455 0080 97E0      		ldi r25,lo8(7)
- 456               	.LBE167:
- 457               	.LBE166:
- 458               	.LBB168:
- 459               	.LBB169:
- 460               	.LBB170:
- 461               	.LBB171:
- 463               	.Ltext10:
- 465               	.LM47:
- 466 0082 28EC      		ldi r18,lo8(-56)
- 467 0084 30E0      		ldi r19,0
- 468               	.L16:
- 469 0086 F901      		movw r30,r18
- 470               	/* #APP */
- 471               	 ;  105 "/usr/lib/avr/include/util/delay_basic.h" 1
- 472 0088 3197      		1: sbiw r30,1
- 473 008a 01F4      		brne 1b
- 474               	 ;  0 "" 2
- 475               	/* #NOAPP */
- 476 008c 0197      		sbiw r24,1
- 477               	.LBE171:
- 478               	.LBE170:
- 480               	.Ltext11:
- 482               	.LM48:
- 483 008e 0097      		sbiw r24,0
- 484 0090 01F4      		brne .L16
- 485               	.LBE169:
- 486               	.LBE168:
- 488               	.Ltext12:
+ 449               	.LM46:
+ 450 0078 C09A      		sbi 0x18,0
+ 451 007a 80ED      		ldi r24,lo8(-48)
+ 452 007c 97E0      		ldi r25,lo8(7)
+ 453               	.LBE167:
+ 454               	.LBE166:
+ 455               	.LBB168:
+ 456               	.LBB169:
+ 457               	.LBB170:
+ 458               	.LBB171:
+ 460               	.Ltext10:
+ 462               	.LM47:
+ 463 007e 28EC      		ldi r18,lo8(-56)
+ 464 0080 30E0      		ldi r19,0
+ 465               	.L13:
+ 466 0082 F901      		movw r30,r18
+ 467               	/* #APP */
+ 468               	 ;  105 "/usr/lib/avr/include/util/delay_basic.h" 1
+ 469 0084 3197      		1: sbiw r30,1
+ 470 0086 01F4      		brne 1b
+ 471               	 ;  0 "" 2
+ 472               	/* #NOAPP */
+ 473 0088 0197      		sbiw r24,1
+ 474               	.LBE171:
+ 475               	.LBE170:
+ 477               	.Ltext11:
+ 479               	.LM48:
+ 480 008a 01F4      		brne .L13
+ 481               	.LBE169:
+ 482               	.LBE168:
+ 484               	.Ltext12:
  175:main.c        ****   _delay_ms(200);
- 490               	.LM49:
- 491 0092 00D0      		rcall led1_off
- 492 0094 80ED      		ldi r24,lo8(-48)
- 493 0096 97E0      		ldi r25,lo8(7)
- 494               	.LBB172:
- 495               	.LBB173:
- 496               	.LBB174:
- 497               	.LBB175:
- 499               	.Ltext13:
- 501               	.LM50:
- 502 0098 28EC      		ldi r18,lo8(-56)
- 503 009a 30E0      		ldi r19,0
- 504               	.L18:
- 505 009c F901      		movw r30,r18
- 506               	/* #APP */
- 507               	 ;  105 "/usr/lib/avr/include/util/delay_basic.h" 1
- 508 009e 3197      		1: sbiw r30,1
- 509 00a0 01F4      		brne 1b
- 510               	 ;  0 "" 2
- 511               	/* #NOAPP */
- 512 00a2 0197      		sbiw r24,1
- 513               	.LBE175:
- 514               	.LBE174:
- 516               	.Ltext14:
- 518               	.LM51:
- 519 00a4 0097      		sbiw r24,0
- 520 00a6 01F4      		brne .L18
- 521               	.LBE173:
- 522               	.LBE172:
- 524               	.Ltext15:
+ 486               	.LM49:
+ 487 008c 00D0      		rcall led1_off
+ 488 008e 80ED      		ldi r24,lo8(-48)
+ 489 0090 97E0      		ldi r25,lo8(7)
+ 490               	.LBB172:
+ 491               	.LBB173:
+ 492               	.LBB174:
+ 493               	.LBB175:
+ 495               	.Ltext13:
+ 497               	.LM50:
+ 498 0092 28EC      		ldi r18,lo8(-56)
+ 499 0094 30E0      		ldi r19,0
+ 500               	.L14:
+ 501 0096 F901      		movw r30,r18
+ 502               	/* #APP */
+ 503               	 ;  105 "/usr/lib/avr/include/util/delay_basic.h" 1
+ 504 0098 3197      		1: sbiw r30,1
+ 505 009a 01F4      		brne 1b
+ 506               	 ;  0 "" 2
+ 507               	/* #NOAPP */
+ 508 009c 0197      		sbiw r24,1
+ 509               	.LBE175:
+ 510               	.LBE174:
+ 512               	.Ltext14:
+ 514               	.LM51:
+ 515 009e 01F4      		brne .L14
+ 516               	.LBE173:
+ 517               	.LBE172:
+ 519               	.Ltext15:
  177:main.c        **** 
- 526               	.LM52:
- 527 00a8 00D0      		rcall led2_off
- 528               	.LBB176:
- 529               	.LBB177:
+ 521               	.LM52:
+ 522 00a0 00D0      		rcall led2_off
+ 523               	.LBB176:
+ 524               	.LBB177:
  155:main.c        **** }
- 531               	.LM53:
- 532 00aa 949A      		sbi 0x12,4
- 533               	.LBE177:
- 534               	.LBE176:
+ 526               	.LM53:
+ 527 00a2 949A      		sbi 0x12,4
+ 528               	.LBE177:
+ 529               	.LBE176:
  180:main.c        ****   nfc_off();
- 536               	.LM54:
- 537 00ac 00D0      		rcall raspi_off
- 538               	.LBB178:
- 539               	.LBB179:
+ 531               	.LM54:
+ 532 00a4 00D0      		rcall raspi_off
+ 533               	.LBB178:
+ 534               	.LBB179:
  147:main.c        **** }
- 541               	.LM55:
- 542 00ae D898      		cbi 0x1b,0
- 543               	.LBE179:
- 544               	.LBE178:
- 545               	.LBE153:
- 546               	.LBE152:
+ 536               	.LM55:
+ 537 00a6 D898      		cbi 0x1b,0
+ 538               	.LBE179:
+ 539               	.LBE178:
+ 540               	.LBE153:
+ 541               	.LBE152:
  195:main.c        ****   }
  196:main.c        **** 
  197:main.c        ****     
@@ -917,6 +912,24 @@
  265:main.c        ****         if (shutdown_timeout <= 0) {
  266:main.c        ****           raspi_off();
  267:main.c        ****           state = MC_OFF;
+ 543               	.LM56:
+ 544 00a8 84E0      		ldi r24,lo8(4)
+ 545 00aa 582E      		mov r5,r24
+ 546               	.LBB180:
+ 547               	.LBB181:
+ 548               	.LBB182:
+ 549               	.LBB183:
+ 551               	.Ltext16:
+ 553               	.LM57:
+ 554 00ac 90E2      		ldi r25,lo8(32)
+ 555 00ae 892E      		mov r8,r25
+ 556 00b0 9EE4      		ldi r25,lo8(78)
+ 557 00b2 992E      		mov r9,r25
+ 558               	.LBE183:
+ 559               	.LBE182:
+ 560               	.LBE181:
+ 561               	.LBE180:
+ 563               	.Ltext17:
  268:main.c        ****           break;
  269:main.c        ****         }
  270:main.c        ****         button_pressed = 0;
@@ -926,24 +939,6 @@
  274:main.c        ****         if (!is_shutdown_busy()) {
  275:main.c        ****           raspi_off();
  276:main.c        ****           state = MC_OFF;
- 548               	.LM56:
- 549 00b0 84E0      		ldi r24,lo8(4)
- 550 00b2 582E      		mov r5,r24
- 551               	.LBB180:
- 552               	.LBB181:
- 553               	.LBB182:
- 554               	.LBB183:
- 556               	.Ltext16:
- 558               	.LM57:
- 559 00b4 90E2      		ldi r25,lo8(32)
- 560 00b6 692E      		mov r6,r25
- 561 00b8 9EE4      		ldi r25,lo8(78)
- 562 00ba 792E      		mov r7,r25
- 563               	.LBE183:
- 564               	.LBE182:
- 565               	.LBE181:
- 566               	.LBE180:
- 568               	.Ltext17:
  277:main.c        ****         }
  278:main.c        ****         break;
  279:main.c        **** 
@@ -959,518 +954,517 @@
  289:main.c        ****             raspi_on();
  290:main.c        ****             nfc_on();
  291:main.c        ****             state = MC_ON;
- 570               	.LM58:
- 571 00bc 4424      		clr r4
- 572 00be 4394      		inc r4
- 573               	.LBB187:
- 574               	.LBB188:
- 575               	.LBB189:
- 576               	.LBB190:
- 578               	.Ltext18:
- 580               	.LM59:
- 581 00c0 C8EC      		ldi r28,lo8(-56)
- 582 00c2 D0E0      		ldi r29,0
- 583               	.LBE190:
- 584               	.LBE189:
- 585               	.LBE188:
- 586               	.LBE187:
- 588               	.Ltext19:
- 241:main.c        ****           shutdown_timeout = 120;
- 590               	.LM60:
- 591 00c4 22E0      		ldi r18,lo8(2)
- 592 00c6 322E      		mov r3,r18
- 242:main.c        ****         }
- 594               	.LM61:
- 595 00c8 38E7      		ldi r19,lo8(120)
- 596 00ca 832E      		mov r8,r19
- 597 00cc 912C      		mov r9,__zero_reg__
- 598               	.L39:
+ 565               	.LM58:
+ 566 00b4 4424      		clr r4
+ 567 00b6 4394      		inc r4
+ 568               	.LBB187:
+ 569               	.LBB188:
+ 570               	.LBB189:
+ 571               	.LBB190:
+ 573               	.Ltext18:
+ 575               	.LM59:
+ 576 00b8 C8EC      		ldi r28,lo8(-56)
+ 577 00ba D0E0      		ldi r29,0
+ 578               	.LBE190:
+ 579               	.LBE189:
+ 580               	.LBE188:
+ 581               	.LBE187:
+ 583               	.Ltext19:
+ 232:main.c        ****           shutdown_timeout = 120;
+ 585               	.LM60:
+ 586 00bc 22E0      		ldi r18,lo8(2)
+ 587 00be 322E      		mov r3,r18
+ 233:main.c        ****           break;
+ 589               	.LM61:
+ 590 00c0 38E7      		ldi r19,lo8(120)
+ 591 00c2 632E      		mov r6,r19
+ 592 00c4 712C      		mov r7,__zero_reg__
+ 593               	.L34:
  206:main.c        ****       button_pressed = 0;
- 600               	.LM62:
- 601 00ce 2091 0000 		lds r18,seconds
- 602 00d2 3091 0000 		lds r19,seconds+1
- 603 00d6 4091 0000 		lds r20,seconds+2
- 604 00da 5091 0000 		lds r21,seconds+3
- 605 00de 6091 0000 		lds r22,seconds+4
- 606 00e2 7091 0000 		lds r23,seconds+5
- 607 00e6 8091 0000 		lds r24,seconds+6
- 608 00ea 9091 0000 		lds r25,seconds+7
- 609 00ee A090 0000 		lds r10,button_pressed
- 610 00f2 B090 0000 		lds r11,button_pressed+1
- 611 00f6 C090 0000 		lds r12,button_pressed+2
- 612 00fa D090 0000 		lds r13,button_pressed+3
- 613 00fe E090 0000 		lds r14,button_pressed+4
- 614 0102 F090 0000 		lds r15,button_pressed+5
- 615 0106 0091 0000 		lds r16,button_pressed+6
- 616 010a 1091 0000 		lds r17,button_pressed+7
- 617 010e 00D0      		rcall __subdi3
- 618 0110 A3E0      		ldi r26,lo8(3)
- 619 0112 00D0      		rcall __cmpdi2_s8
- 620 0114 01F0      		breq .L19
- 621 0116 00F0      		brlo .L19
+ 595               	.LM62:
+ 596 00c6 2091 0000 		lds r18,seconds
+ 597 00ca 3091 0000 		lds r19,seconds+1
+ 598 00ce 4091 0000 		lds r20,seconds+2
+ 599 00d2 5091 0000 		lds r21,seconds+3
+ 600 00d6 6091 0000 		lds r22,seconds+4
+ 601 00da 7091 0000 		lds r23,seconds+5
+ 602 00de 8091 0000 		lds r24,seconds+6
+ 603 00e2 9091 0000 		lds r25,seconds+7
+ 604 00e6 A090 0000 		lds r10,button_pressed
+ 605 00ea B090 0000 		lds r11,button_pressed+1
+ 606 00ee C090 0000 		lds r12,button_pressed+2
+ 607 00f2 D090 0000 		lds r13,button_pressed+3
+ 608 00f6 E090 0000 		lds r14,button_pressed+4
+ 609 00fa F090 0000 		lds r15,button_pressed+5
+ 610 00fe 0091 0000 		lds r16,button_pressed+6
+ 611 0102 1091 0000 		lds r17,button_pressed+7
+ 612 0106 00D0      		rcall __subdi3
+ 613 0108 A3E0      		ldi r26,lo8(3)
+ 614 010a 00D0      		rcall __cmpdi2_s8
+ 615 010c 01F0      		breq .L15
+ 616 010e 00F0      		brlo .L15
  207:main.c        ****     }
- 623               	.LM63:
- 624 0118 1092 0000 		sts button_pressed,__zero_reg__
- 625 011c 1092 0000 		sts button_pressed+1,__zero_reg__
- 626 0120 1092 0000 		sts button_pressed+2,__zero_reg__
- 627 0124 1092 0000 		sts button_pressed+3,__zero_reg__
- 628 0128 1092 0000 		sts button_pressed+4,__zero_reg__
- 629 012c 1092 0000 		sts button_pressed+5,__zero_reg__
- 630 0130 1092 0000 		sts button_pressed+6,__zero_reg__
- 631 0134 1092 0000 		sts button_pressed+7,__zero_reg__
- 632               	.L19:
+ 618               	.LM63:
+ 619 0110 1092 0000 		sts button_pressed,__zero_reg__
+ 620 0114 1092 0000 		sts button_pressed+1,__zero_reg__
+ 621 0118 1092 0000 		sts button_pressed+2,__zero_reg__
+ 622 011c 1092 0000 		sts button_pressed+3,__zero_reg__
+ 623 0120 1092 0000 		sts button_pressed+4,__zero_reg__
+ 624 0124 1092 0000 		sts button_pressed+5,__zero_reg__
+ 625 0128 1092 0000 		sts button_pressed+6,__zero_reg__
+ 626 012c 1092 0000 		sts button_pressed+7,__zero_reg__
+ 627               	.L15:
  209:main.c        ****         
- 634               	.LM64:
- 635 0138 8091 0000 		lds r24,state
- 636 013c 8230      		cpi r24,lo8(2)
- 637 013e 01F4      		brne .+2
- 638 0140 00C0      		rjmp .L21
- 639 0142 00F4      		brsh .L22
- 640 0144 8823      		tst r24
- 641 0146 01F0      		breq .L23
- 642 0148 8130      		cpi r24,lo8(1)
- 643 014a 01F0      		breq .L24
- 644 014c 00C0      		rjmp .L20
- 645               	.L22:
- 646 014e 8330      		cpi r24,lo8(3)
- 647 0150 01F4      		brne .+2
- 648 0152 00C0      		rjmp .L25
- 649 0154 8430      		cpi r24,lo8(4)
- 650 0156 01F4      		brne .+2
- 651 0158 00C0      		rjmp .L26
- 652 015a 00C0      		rjmp .L20
- 653               	.L23:
- 654               	.LBB194:
- 655               	.LBB195:
+ 629               	.LM64:
+ 630 0130 8091 0000 		lds r24,state
+ 631 0134 8230      		cpi r24,lo8(2)
+ 632 0136 01F4      		brne .+2
+ 633 0138 00C0      		rjmp .L17
+ 634 013a 00F4      		brsh .L18
+ 635 013c 8823      		tst r24
+ 636 013e 01F0      		breq .L19
+ 637 0140 8130      		cpi r24,lo8(1)
+ 638 0142 01F0      		breq .L20
+ 639 0144 00C0      		rjmp .L16
+ 640               	.L18:
+ 641 0146 8330      		cpi r24,lo8(3)
+ 642 0148 01F4      		brne .+2
+ 643 014a 00C0      		rjmp .L21
+ 644 014c 8430      		cpi r24,lo8(4)
+ 645 014e 01F4      		brne .+2
+ 646 0150 00C0      		rjmp .L22
+ 647 0152 00C0      		rjmp .L16
+ 648               	.L19:
+ 649               	.LBB194:
+ 650               	.LBB195:
   89:main.c        **** }
- 657               	.LM65:
- 658 015c 969A      		sbi 0x12,6
- 659               	.LBE195:
- 660               	.LBE194:
- 661               	.LBB196:
- 662               	.LBB197:
+ 652               	.LM65:
+ 653 0154 969A      		sbi 0x12,6
+ 654               	.LBE195:
+ 655               	.LBE194:
+ 656               	.LBB196:
+ 657               	.LBB197:
  101:main.c        **** }
- 664               	.LM66:
- 665 015e C49A      		sbi 0x18,4
- 666               	.LBE197:
- 667               	.LBE196:
- 668               	.LBB198:
- 669               	.LBB199:
+ 659               	.LM66:
+ 660 0156 C49A      		sbi 0x18,4
+ 661               	.LBE197:
+ 662               	.LBE196:
+ 663               	.LBB198:
+ 664               	.LBB199:
  113:main.c        **** }
- 671               	.LM67:
- 672 0160 C09A      		sbi 0x18,0
- 673               	.LBE199:
- 674               	.LBE198:
+ 666               	.LM67:
+ 667 0158 C09A      		sbi 0x18,0
+ 668               	.LBE199:
+ 669               	.LBE198:
  215:main.c        ****           state = MC_ON;
- 676               	.LM68:
- 677 0162 B39B      		sbis 0x16,3
- 678 0164 00C0      		rjmp .L49
+ 671               	.LM68:
+ 672 015a B39B      		sbis 0x16,3
+ 673 015c 00C0      		rjmp .L54
  216:main.c        ****           raspi_on();
- 680               	.LM69:
- 681 0166 4092 0000 		sts state,r4
+ 675               	.LM69:
+ 676 015e 4092 0000 		sts state,r4
  217:main.c        ****           nfc_on();
- 683               	.LM70:
- 684 016a 00D0      		rcall raspi_on
- 685               	.LBB200:
- 686               	.LBB201:
+ 678               	.LM70:
+ 679 0162 00D0      		rcall raspi_on
+ 680               	.LBB200:
+ 681               	.LBB201:
  143:main.c        **** }
- 688               	.LM71:
- 689 016c D89A      		sbi 0x1b,0
- 690 016e 00C0      		rjmp .L20
- 691               	.L24:
- 692               	.LBE201:
- 693               	.LBE200:
- 694               	.LBB202:
- 695               	.LBB203:
+ 683               	.LM71:
+ 684 0164 D89A      		sbi 0x1b,0
+ 685 0166 00C0      		rjmp .L16
+ 686               	.L20:
+ 687               	.LBE201:
+ 688               	.LBE200:
+ 689               	.LBB202:
+ 690               	.LBB203:
   97:main.c        **** }
- 697               	.LM72:
- 698 0170 869A      		sbi 0x10,6
- 699               	.LBE203:
- 700               	.LBE202:
+ 692               	.LM72:
+ 693 0168 869A      		sbi 0x10,6
+ 694               	.LBE203:
+ 695               	.LBE202:
  226:main.c        ****         led2_off();
- 702               	.LM73:
- 703 0172 00D0      		rcall led1_off
+ 697               	.LM73:
+ 698 016a 00D0      		rcall led1_off
  227:main.c        ****         if (!is_power_ok()) {
- 705               	.LM74:
- 706 0174 00D0      		rcall led2_off
+ 700               	.LM74:
+ 701 016c 00D0      		rcall led2_off
  228:main.c        ****           shutdown_on();
- 708               	.LM75:
- 709 0176 B399      		sbic 0x16,3
- 710 0178 00C0      		rjmp .L28
- 711               	.LBB204:
- 712               	.LBB205:
+ 703               	.LM75:
+ 704 016e B399      		sbic 0x16,3
+ 705 0170 00C0      		rjmp .L24
+ 706               	.LBB204:
+ 707               	.LBB205:
  151:main.c        **** }
- 714               	.LM76:
- 715 017a 9498      		cbi 0x12,4
- 716               	.LBE205:
- 717               	.LBE204:
- 718               	.LBB206:
- 719               	.LBB207:
+ 709               	.LM76:
+ 710 0172 9498      		cbi 0x12,4
+ 711               	.LBE205:
+ 712               	.LBE204:
+ 713               	.LBB206:
+ 714               	.LBB207:
  147:main.c        **** }
- 721               	.LM77:
- 722 017c D898      		cbi 0x1b,0
- 723 017e 88E8      		ldi r24,lo8(-120)
- 724 0180 93E1      		ldi r25,lo8(19)
- 725               	.L30:
- 726               	.LBE207:
- 727               	.LBE206:
- 728               	.LBB208:
- 729               	.LBB209:
- 730               	.LBB210:
- 731               	.LBB211:
- 733               	.Ltext20:
- 735               	.LM78:
- 736 0182 FE01      		movw r30,r28
- 737               	/* #APP */
- 738               	 ;  105 "/usr/lib/avr/include/util/delay_basic.h" 1
- 739 0184 3197      		1: sbiw r30,1
- 740 0186 01F4      		brne 1b
- 741               	 ;  0 "" 2
- 742               	/* #NOAPP */
- 743 0188 0197      		sbiw r24,1
- 744               	.LBE211:
- 745               	.LBE210:
- 747               	.Ltext21:
- 749               	.LM79:
- 750 018a 0097      		sbiw r24,0
- 751 018c 01F4      		brne .L30
- 752 018e 00C0      		rjmp .L51
- 753               	.L28:
- 754               	.LBE209:
- 755               	.LBE208:
- 757               	.Ltext22:
+ 716               	.LM77:
+ 717 0174 D898      		cbi 0x1b,0
+ 718 0176 88E8      		ldi r24,lo8(-120)
+ 719 0178 93E1      		ldi r25,lo8(19)
+ 720               	.L25:
+ 721               	.LBE207:
+ 722               	.LBE206:
+ 723               	.LBB208:
+ 724               	.LBB209:
+ 725               	.LBB210:
+ 726               	.LBB211:
+ 728               	.Ltext20:
+ 730               	.LM78:
+ 731 017a FE01      		movw r30,r28
+ 732               	/* #APP */
+ 733               	 ;  105 "/usr/lib/avr/include/util/delay_basic.h" 1
+ 734 017c 3197      		1: sbiw r30,1
+ 735 017e 01F4      		brne 1b
+ 736               	 ;  0 "" 2
+ 737               	/* #NOAPP */
+ 738 0180 0197      		sbiw r24,1
+ 739               	.LBE211:
+ 740               	.LBE210:
+ 742               	.Ltext21:
+ 744               	.LM79:
+ 745 0182 01F4      		brne .L25
+ 746               	.L29:
+ 747               	.LBE209:
+ 748               	.LBE208:
+ 750               	.Ltext22:
+ 232:main.c        ****           shutdown_timeout = 120;
+ 752               	.LM80:
+ 753 0184 3092 0000 		sts state,r3
+ 233:main.c        ****           break;
+ 755               	.LM81:
+ 756 0188 7092 0000 		sts shutdown_timeout+1,r7
+ 757 018c 6092 0000 		sts shutdown_timeout,r6
+ 234:main.c        ****         }
+ 759               	.LM82:
+ 760 0190 00C0      		rjmp .L16
+ 761               	.L24:
  236:main.c        ****           button_pressed = 0;
- 759               	.LM80:
- 760 0190 2091 0000 		lds r18,button_pressed
- 761 0194 3091 0000 		lds r19,button_pressed+1
- 762 0198 4091 0000 		lds r20,button_pressed+2
- 763 019c 5091 0000 		lds r21,button_pressed+3
- 764 01a0 6091 0000 		lds r22,button_pressed+4
- 765 01a4 7091 0000 		lds r23,button_pressed+5
- 766 01a8 8091 0000 		lds r24,button_pressed+6
- 767 01ac 9091 0000 		lds r25,button_pressed+7
- 768 01b0 A0E0      		ldi r26,0
- 769 01b2 00D0      		rcall __cmpdi2_s8
- 770 01b4 01F4      		brne .+2
- 771 01b6 00C0      		rjmp .L20
+ 763               	.LM83:
+ 764 0192 2091 0000 		lds r18,button_pressed
+ 765 0196 3091 0000 		lds r19,button_pressed+1
+ 766 019a 4091 0000 		lds r20,button_pressed+2
+ 767 019e 5091 0000 		lds r21,button_pressed+3
+ 768 01a2 6091 0000 		lds r22,button_pressed+4
+ 769 01a6 7091 0000 		lds r23,button_pressed+5
+ 770 01aa 8091 0000 		lds r24,button_pressed+6
+ 771 01ae 9091 0000 		lds r25,button_pressed+7
+ 772 01b2 A0E0      		ldi r26,0
+ 773 01b4 00D0      		rcall __cmpdi2_s8
+ 774 01b6 01F4      		brne .+2
+ 775 01b8 00C0      		rjmp .L16
  236:main.c        ****           button_pressed = 0;
- 773               	.LM81:
- 774 01b8 2091 0000 		lds r18,seconds
- 775 01bc 3091 0000 		lds r19,seconds+1
- 776 01c0 4091 0000 		lds r20,seconds+2
- 777 01c4 5091 0000 		lds r21,seconds+3
- 778 01c8 6091 0000 		lds r22,seconds+4
- 779 01cc 7091 0000 		lds r23,seconds+5
- 780 01d0 8091 0000 		lds r24,seconds+6
- 781 01d4 9091 0000 		lds r25,seconds+7
- 782 01d8 A090 0000 		lds r10,button_pressed
- 783 01dc B090 0000 		lds r11,button_pressed+1
- 784 01e0 C090 0000 		lds r12,button_pressed+2
- 785 01e4 D090 0000 		lds r13,button_pressed+3
- 786 01e8 E090 0000 		lds r14,button_pressed+4
- 787 01ec F090 0000 		lds r15,button_pressed+5
- 788 01f0 0091 0000 		lds r16,button_pressed+6
- 789 01f4 1091 0000 		lds r17,button_pressed+7
- 790 01f8 00D0      		rcall __subdi3
- 791 01fa A1E0      		ldi r26,lo8(1)
- 792 01fc 00D0      		rcall __cmpdi2_s8
- 793 01fe 01F0      		breq .+4
- 794 0200 00F0      		brlo .+2
- 795 0202 00C0      		rjmp .L20
+ 777               	.LM84:
+ 778 01ba 2091 0000 		lds r18,seconds
+ 779 01be 3091 0000 		lds r19,seconds+1
+ 780 01c2 4091 0000 		lds r20,seconds+2
+ 781 01c6 5091 0000 		lds r21,seconds+3
+ 782 01ca 6091 0000 		lds r22,seconds+4
+ 783 01ce 7091 0000 		lds r23,seconds+5
+ 784 01d2 8091 0000 		lds r24,seconds+6
+ 785 01d6 9091 0000 		lds r25,seconds+7
+ 786 01da A090 0000 		lds r10,button_pressed
+ 787 01de B090 0000 		lds r11,button_pressed+1
+ 788 01e2 C090 0000 		lds r12,button_pressed+2
+ 789 01e6 D090 0000 		lds r13,button_pressed+3
+ 790 01ea E090 0000 		lds r14,button_pressed+4
+ 791 01ee F090 0000 		lds r15,button_pressed+5
+ 792 01f2 0091 0000 		lds r16,button_pressed+6
+ 793 01f6 1091 0000 		lds r17,button_pressed+7
+ 794 01fa 00D0      		rcall __subdi3
+ 795 01fc A1E0      		ldi r26,lo8(1)
+ 796 01fe 00D0      		rcall __cmpdi2_s8
+ 797 0200 01F0      		breq .+4
+ 798 0202 00F0      		brlo .+2
+ 799 0204 00C0      		rjmp .L16
  237:main.c        ****           shutdown_on();
- 797               	.LM82:
- 798 0204 1092 0000 		sts button_pressed,__zero_reg__
- 799 0208 1092 0000 		sts button_pressed+1,__zero_reg__
- 800 020c 1092 0000 		sts button_pressed+2,__zero_reg__
- 801 0210 1092 0000 		sts button_pressed+3,__zero_reg__
- 802 0214 1092 0000 		sts button_pressed+4,__zero_reg__
- 803 0218 1092 0000 		sts button_pressed+5,__zero_reg__
- 804 021c 1092 0000 		sts button_pressed+6,__zero_reg__
- 805 0220 1092 0000 		sts button_pressed+7,__zero_reg__
- 806               	.LBB212:
- 807               	.LBB213:
+ 801               	.LM85:
+ 802 0206 1092 0000 		sts button_pressed,__zero_reg__
+ 803 020a 1092 0000 		sts button_pressed+1,__zero_reg__
+ 804 020e 1092 0000 		sts button_pressed+2,__zero_reg__
+ 805 0212 1092 0000 		sts button_pressed+3,__zero_reg__
+ 806 0216 1092 0000 		sts button_pressed+4,__zero_reg__
+ 807 021a 1092 0000 		sts button_pressed+5,__zero_reg__
+ 808 021e 1092 0000 		sts button_pressed+6,__zero_reg__
+ 809 0222 1092 0000 		sts button_pressed+7,__zero_reg__
+ 810               	.LBB212:
+ 811               	.LBB213:
  151:main.c        **** }
- 809               	.LM83:
- 810 0224 9498      		cbi 0x12,4
- 811               	.LBE213:
- 812               	.LBE212:
- 813               	.LBB214:
- 814               	.LBB215:
+ 813               	.LM86:
+ 814 0226 9498      		cbi 0x12,4
+ 815               	.LBE213:
+ 816               	.LBE212:
+ 817               	.LBB214:
+ 818               	.LBB215:
  147:main.c        **** }
- 816               	.LM84:
- 817 0226 D898      		cbi 0x1b,0
- 818 0228 88E8      		ldi r24,lo8(-120)
- 819 022a 93E1      		ldi r25,lo8(19)
- 820               	.L34:
- 821               	.LBE215:
- 822               	.LBE214:
- 823               	.LBB216:
- 824               	.LBB217:
- 825               	.LBB218:
- 826               	.LBB219:
- 828               	.Ltext23:
- 830               	.LM85:
- 831 022c FE01      		movw r30,r28
- 832               	/* #APP */
- 833               	 ;  105 "/usr/lib/avr/include/util/delay_basic.h" 1
- 834 022e 3197      		1: sbiw r30,1
- 835 0230 01F4      		brne 1b
- 836               	 ;  0 "" 2
- 837               	/* #NOAPP */
- 838 0232 0197      		sbiw r24,1
- 839               	.LBE219:
- 840               	.LBE218:
- 842               	.Ltext24:
- 844               	.LM86:
- 845 0234 0097      		sbiw r24,0
- 846 0236 01F4      		brne .L34
- 847               	.L51:
- 848               	.LBE217:
- 849               	.LBE216:
- 851               	.Ltext25:
- 241:main.c        ****           shutdown_timeout = 120;
- 853               	.LM87:
- 854 0238 3092 0000 		sts state,r3
- 242:main.c        ****         }
- 856               	.LM88:
- 857 023c 9092 0000 		sts shutdown_timeout+1,r9
- 858 0240 8092 0000 		sts shutdown_timeout,r8
- 859 0244 00C0      		rjmp .L20
- 860               	.L21:
+ 820               	.LM87:
+ 821 0228 D898      		cbi 0x1b,0
+ 822 022a 88E8      		ldi r24,lo8(-120)
+ 823 022c 93E1      		ldi r25,lo8(19)
+ 824               	.L28:
+ 825               	.LBE215:
+ 826               	.LBE214:
+ 827               	.LBB216:
+ 828               	.LBB217:
+ 829               	.LBB218:
+ 830               	.LBB219:
+ 832               	.Ltext23:
+ 834               	.LM88:
+ 835 022e FE01      		movw r30,r28
+ 836               	/* #APP */
+ 837               	 ;  105 "/usr/lib/avr/include/util/delay_basic.h" 1
+ 838 0230 3197      		1: sbiw r30,1
+ 839 0232 01F4      		brne 1b
+ 840               	 ;  0 "" 2
+ 841               	/* #NOAPP */
+ 842 0234 0197      		sbiw r24,1
+ 843               	.LBE219:
+ 844               	.LBE218:
+ 846               	.Ltext24:
+ 848               	.LM89:
+ 849 0236 01F4      		brne .L28
+ 850 0238 00C0      		rjmp .L29
+ 851               	.L17:
+ 852               	.LBE217:
+ 853               	.LBE216:
+ 855               	.Ltext25:
  247:main.c        ****         if (shutdown_timeout <= 0) {
- 862               	.LM89:
- 863 0246 8091 0000 		lds r24,shutdown_timeout
- 864 024a 9091 0000 		lds r25,shutdown_timeout+1
- 865 024e 0197      		sbiw r24,1
- 866 0250 9093 0000 		sts shutdown_timeout+1,r25
- 867 0254 8093 0000 		sts shutdown_timeout,r24
+ 857               	.LM90:
+ 858 023a 8091 0000 		lds r24,shutdown_timeout
+ 859 023e 9091 0000 		lds r25,shutdown_timeout+1
+ 860 0242 0197      		sbiw r24,1
+ 861 0244 9093 0000 		sts shutdown_timeout+1,r25
+ 862 0248 8093 0000 		sts shutdown_timeout,r24
  248:main.c        ****           shutdown_off();
- 869               	.LM90:
- 870 0258 1816      		cp __zero_reg__,r24
- 871 025a 1906      		cpc __zero_reg__,r25
- 872 025c 04F4      		brge .L52
+ 864               	.LM91:
+ 865 024c 1816      		cp __zero_reg__,r24
+ 866 024e 1906      		cpc __zero_reg__,r25
+ 867 0250 04F4      		brge .L55
  253:main.c        ****         led0_off();
- 874               	.LM91:
- 875 025e 1092 0000 		sts button_pressed,__zero_reg__
- 876 0262 1092 0000 		sts button_pressed+1,__zero_reg__
- 877 0266 1092 0000 		sts button_pressed+2,__zero_reg__
- 878 026a 1092 0000 		sts button_pressed+3,__zero_reg__
- 879 026e 1092 0000 		sts button_pressed+4,__zero_reg__
- 880 0272 1092 0000 		sts button_pressed+5,__zero_reg__
- 881 0276 1092 0000 		sts button_pressed+6,__zero_reg__
- 882 027a 1092 0000 		sts button_pressed+7,__zero_reg__
+ 869               	.LM92:
+ 870 0252 1092 0000 		sts button_pressed,__zero_reg__
+ 871 0256 1092 0000 		sts button_pressed+1,__zero_reg__
+ 872 025a 1092 0000 		sts button_pressed+2,__zero_reg__
+ 873 025e 1092 0000 		sts button_pressed+3,__zero_reg__
+ 874 0262 1092 0000 		sts button_pressed+4,__zero_reg__
+ 875 0266 1092 0000 		sts button_pressed+5,__zero_reg__
+ 876 026a 1092 0000 		sts button_pressed+6,__zero_reg__
+ 877 026e 1092 0000 		sts button_pressed+7,__zero_reg__
  254:main.c        ****         led1_toggle();
- 884               	.LM92:
- 885 027e 00D0      		rcall led0_off
- 886               	.LBB220:
- 887               	.LBB221:
+ 879               	.LM93:
+ 880 0272 00D0      		rcall led0_off
+ 881               	.LBB220:
+ 882               	.LBB221:
  109:main.c        **** } 
- 889               	.LM93:
- 890 0280 B49A      		sbi 0x16,4
- 891               	.LBE221:
- 892               	.LBE220:
+ 884               	.LM94:
+ 885 0274 B49A      		sbi 0x16,4
+ 886               	.LBE221:
+ 887               	.LBE220:
  256:main.c        ****         if (is_shutdown_busy()) {
- 894               	.LM94:
- 895 0282 00D0      		rcall led2_off
+ 889               	.LM95:
+ 890 0276 00D0      		rcall led2_off
  257:main.c        ****           shutdown_off();
- 897               	.LM95:
- 898 0284 859B      		sbis 0x10,5
- 899 0286 00C0      		rjmp .L20
- 900               	.L52:
- 901               	.LBB222:
- 902               	.LBB223:
+ 892               	.LM96:
+ 893 0278 859B      		sbis 0x10,5
+ 894 027a 00C0      		rjmp .L16
+ 895               	.L55:
+ 896               	.LBB222:
+ 897               	.LBB223:
  155:main.c        **** }
- 904               	.LM96:
- 905 0288 949A      		sbi 0x12,4
- 906               	.LBE223:
- 907               	.LBE222:
+ 899               	.LM97:
+ 900 027c 949A      		sbi 0x12,4
+ 901               	.LBE223:
+ 902               	.LBE222:
  259:main.c        ****         }
- 909               	.LM97:
- 910 028a 83E0      		ldi r24,lo8(3)
- 911 028c 8093 0000 		sts state,r24
- 912 0290 00C0      		rjmp .L20
- 913               	.L25:
+ 904               	.LM98:
+ 905 027e 83E0      		ldi r24,lo8(3)
+ 906 0280 8093 0000 		sts state,r24
+ 907 0284 00C0      		rjmp .L16
+ 908               	.L21:
  264:main.c        ****         if (shutdown_timeout <= 0) {
- 915               	.LM98:
- 916 0292 8091 0000 		lds r24,shutdown_timeout
- 917 0296 9091 0000 		lds r25,shutdown_timeout+1
- 918 029a 0197      		sbiw r24,1
- 919 029c 9093 0000 		sts shutdown_timeout+1,r25
- 920 02a0 8093 0000 		sts shutdown_timeout,r24
+ 910               	.LM99:
+ 911 0286 8091 0000 		lds r24,shutdown_timeout
+ 912 028a 9091 0000 		lds r25,shutdown_timeout+1
+ 913 028e 0197      		sbiw r24,1
+ 914 0290 9093 0000 		sts shutdown_timeout+1,r25
+ 915 0294 8093 0000 		sts shutdown_timeout,r24
  265:main.c        ****           raspi_off();
- 922               	.LM99:
- 923 02a4 1816      		cp __zero_reg__,r24
- 924 02a6 1906      		cpc __zero_reg__,r25
- 925 02a8 04F0      		brlt .L36
- 926               	.L50:
+ 917               	.LM100:
+ 918 0298 1816      		cp __zero_reg__,r24
+ 919 029a 1906      		cpc __zero_reg__,r25
+ 920 029c 04F0      		brlt .L31
+ 921               	.L32:
  266:main.c        ****           state = MC_OFF;
- 928               	.LM100:
- 929 02aa 00D0      		rcall raspi_off
- 930               	.L49:
+ 923               	.LM101:
+ 924 029e 00D0      		rcall raspi_off
+ 925               	.L54:
  267:main.c        ****           break;
- 932               	.LM101:
- 933 02ac 5092 0000 		sts state,r5
+ 927               	.LM102:
+ 928 02a0 5092 0000 		sts state,r5
  268:main.c        ****         }
- 935               	.LM102:
- 936 02b0 00C0      		rjmp .L20
- 937               	.L36:
+ 930               	.LM103:
+ 931 02a4 00C0      		rjmp .L16
+ 932               	.L31:
  270:main.c        ****         led0_off();
- 939               	.LM103:
- 940 02b2 1092 0000 		sts button_pressed,__zero_reg__
- 941 02b6 1092 0000 		sts button_pressed+1,__zero_reg__
- 942 02ba 1092 0000 		sts button_pressed+2,__zero_reg__
- 943 02be 1092 0000 		sts button_pressed+3,__zero_reg__
- 944 02c2 1092 0000 		sts button_pressed+4,__zero_reg__
- 945 02c6 1092 0000 		sts button_pressed+5,__zero_reg__
- 946 02ca 1092 0000 		sts button_pressed+6,__zero_reg__
- 947 02ce 1092 0000 		sts button_pressed+7,__zero_reg__
+ 934               	.LM104:
+ 935 02a6 1092 0000 		sts button_pressed,__zero_reg__
+ 936 02aa 1092 0000 		sts button_pressed+1,__zero_reg__
+ 937 02ae 1092 0000 		sts button_pressed+2,__zero_reg__
+ 938 02b2 1092 0000 		sts button_pressed+3,__zero_reg__
+ 939 02b6 1092 0000 		sts button_pressed+4,__zero_reg__
+ 940 02ba 1092 0000 		sts button_pressed+5,__zero_reg__
+ 941 02be 1092 0000 		sts button_pressed+6,__zero_reg__
+ 942 02c2 1092 0000 		sts button_pressed+7,__zero_reg__
  271:main.c        ****         led1_off();
- 949               	.LM104:
- 950 02d2 00D0      		rcall led0_off
+ 944               	.LM105:
+ 945 02c6 00D0      		rcall led0_off
  272:main.c        ****         led2_toggle();
- 952               	.LM105:
- 953 02d4 00D0      		rcall led1_off
- 954               	.LBB224:
- 955               	.LBB225:
+ 947               	.LM106:
+ 948 02c8 00D0      		rcall led1_off
+ 949               	.LBB224:
+ 950               	.LBB225:
  121:main.c        **** } 
- 957               	.LM106:
- 958 02d6 B09A      		sbi 0x16,0
- 959               	.LBE225:
- 960               	.LBE224:
+ 952               	.LM107:
+ 953 02ca B09A      		sbi 0x16,0
+ 954               	.LBE225:
+ 955               	.LBE224:
  274:main.c        ****           raspi_off();
- 962               	.LM107:
- 963 02d8 8599      		sbic 0x10,5
- 964 02da 00C0      		rjmp .L20
- 965 02dc 00C0      		rjmp .L50
- 966               	.L26:
- 967               	.LBB226:
- 968               	.LBB227:
+ 957               	.LM108:
+ 958 02cc 8599      		sbic 0x10,5
+ 959 02ce 00C0      		rjmp .L16
+ 960 02d0 00C0      		rjmp .L32
+ 961               	.L22:
+ 962               	.LBB226:
+ 963               	.LBB227:
   89:main.c        **** }
- 970               	.LM108:
- 971 02de 969A      		sbi 0x12,6
- 972               	.LBE227:
- 973               	.LBE226:
- 974               	.LBB228:
- 975               	.LBB186:
- 976               	.LBB185:
- 977               	.LBB184:
- 979               	.Ltext26:
- 981               	.LM109:
- 982 02e0 C301      		movw r24,r6
- 983               	/* #APP */
- 984               	 ;  105 "/usr/lib/avr/include/util/delay_basic.h" 1
- 985 02e2 0197      		1: sbiw r24,1
- 986 02e4 01F4      		brne 1b
- 987               	 ;  0 "" 2
- 988               	/* #NOAPP */
- 989               	.LBE184:
- 990               	.LBE185:
- 991               	.LBE186:
- 992               	.LBE228:
- 994               	.Ltext27:
+ 965               	.LM109:
+ 966 02d2 969A      		sbi 0x12,6
+ 967               	.LBE227:
+ 968               	.LBE226:
+ 969               	.LBB228:
+ 970               	.LBB186:
+ 971               	.LBB185:
+ 972               	.LBB184:
+ 974               	.Ltext26:
+ 976               	.LM110:
+ 977 02d4 C401      		movw r24,r8
+ 978               	/* #APP */
+ 979               	 ;  105 "/usr/lib/avr/include/util/delay_basic.h" 1
+ 980 02d6 0197      		1: sbiw r24,1
+ 981 02d8 01F4      		brne 1b
+ 982               	 ;  0 "" 2
+ 983               	/* #NOAPP */
+ 984               	.LBE184:
+ 985               	.LBE185:
+ 986               	.LBE186:
+ 987               	.LBE228:
+ 989               	.Ltext27:
  283:main.c        ****         led1_off();
- 996               	.LM110:
- 997 02e6 00D0      		rcall led0_off
+ 991               	.LM111:
+ 992 02da 00D0      		rcall led0_off
  284:main.c        ****         led2_off();
- 999               	.LM111:
- 1000 02e8 00D0      		rcall led1_off
+ 994               	.LM112:
+ 995 02dc 00D0      		rcall led1_off
  285:main.c        ****         if (button_pressed > 0) {
- 1002               	.LM112:
- 1003 02ea 00D0      		rcall led2_off
+ 997               	.LM113:
+ 998 02de 00D0      		rcall led2_off
  286:main.c        ****           button_pressed = 0;
- 1005               	.LM113:
- 1006 02ec 2091 0000 		lds r18,button_pressed
- 1007 02f0 3091 0000 		lds r19,button_pressed+1
- 1008 02f4 4091 0000 		lds r20,button_pressed+2
- 1009 02f8 5091 0000 		lds r21,button_pressed+3
- 1010 02fc 6091 0000 		lds r22,button_pressed+4
- 1011 0300 7091 0000 		lds r23,button_pressed+5
- 1012 0304 8091 0000 		lds r24,button_pressed+6
- 1013 0308 9091 0000 		lds r25,button_pressed+7
- 1014 030c A0E0      		ldi r26,0
- 1015 030e 00D0      		rcall __cmpdi2_s8
- 1016 0310 01F0      		breq .L20
+ 1000               	.LM114:
+ 1001 02e0 2091 0000 		lds r18,button_pressed
+ 1002 02e4 3091 0000 		lds r19,button_pressed+1
+ 1003 02e8 4091 0000 		lds r20,button_pressed+2
+ 1004 02ec 5091 0000 		lds r21,button_pressed+3
+ 1005 02f0 6091 0000 		lds r22,button_pressed+4
+ 1006 02f4 7091 0000 		lds r23,button_pressed+5
+ 1007 02f8 8091 0000 		lds r24,button_pressed+6
+ 1008 02fc 9091 0000 		lds r25,button_pressed+7
+ 1009 0300 A0E0      		ldi r26,0
+ 1010 0302 00D0      		rcall __cmpdi2_s8
+ 1011 0304 01F0      		breq .L16
  287:main.c        ****           if (is_power_ok()) {
- 1018               	.LM114:
- 1019 0312 1092 0000 		sts button_pressed,__zero_reg__
- 1020 0316 1092 0000 		sts button_pressed+1,__zero_reg__
- 1021 031a 1092 0000 		sts button_pressed+2,__zero_reg__
- 1022 031e 1092 0000 		sts button_pressed+3,__zero_reg__
- 1023 0322 1092 0000 		sts button_pressed+4,__zero_reg__
- 1024 0326 1092 0000 		sts button_pressed+5,__zero_reg__
- 1025 032a 1092 0000 		sts button_pressed+6,__zero_reg__
- 1026 032e 1092 0000 		sts button_pressed+7,__zero_reg__
+ 1013               	.LM115:
+ 1014 0306 1092 0000 		sts button_pressed,__zero_reg__
+ 1015 030a 1092 0000 		sts button_pressed+1,__zero_reg__
+ 1016 030e 1092 0000 		sts button_pressed+2,__zero_reg__
+ 1017 0312 1092 0000 		sts button_pressed+3,__zero_reg__
+ 1018 0316 1092 0000 		sts button_pressed+4,__zero_reg__
+ 1019 031a 1092 0000 		sts button_pressed+5,__zero_reg__
+ 1020 031e 1092 0000 		sts button_pressed+6,__zero_reg__
+ 1021 0322 1092 0000 		sts button_pressed+7,__zero_reg__
  288:main.c        ****             raspi_on();
- 1028               	.LM115:
- 1029 0332 B39B      		sbis 0x16,3
- 1030 0334 00C0      		rjmp .L20
+ 1023               	.LM116:
+ 1024 0326 B39B      		sbis 0x16,3
+ 1025 0328 00C0      		rjmp .L16
  289:main.c        ****             nfc_on();
- 1032               	.LM116:
- 1033 0336 00D0      		rcall raspi_on
- 1034               	.LBB229:
- 1035               	.LBB230:
+ 1027               	.LM117:
+ 1028 032a 00D0      		rcall raspi_on
+ 1029               	.LBB229:
+ 1030               	.LBB230:
  143:main.c        **** }
- 1037               	.LM117:
- 1038 0338 D89A      		sbi 0x1b,0
- 1039               	.LBE230:
- 1040               	.LBE229:
- 1042               	.LM118:
- 1043 033a 4092 0000 		sts state,r4
- 1044 033e 88E8      		ldi r24,lo8(-120)
- 1045 0340 93E1      		ldi r25,lo8(19)
- 1046               	.L38:
- 1047               	.LBB231:
- 1048               	.LBB193:
- 1049               	.LBB192:
- 1050               	.LBB191:
- 1052               	.Ltext28:
- 1054               	.LM119:
- 1055 0342 FE01      		movw r30,r28
- 1056               	/* #APP */
- 1057               	 ;  105 "/usr/lib/avr/include/util/delay_basic.h" 1
- 1058 0344 3197      		1: sbiw r30,1
- 1059 0346 01F4      		brne 1b
- 1060               	 ;  0 "" 2
- 1061               	/* #NOAPP */
- 1062 0348 0197      		sbiw r24,1
- 1063               	.LBE191:
- 1064               	.LBE192:
- 1066               	.Ltext29:
- 1068               	.LM120:
- 1069 034a 0097      		sbiw r24,0
- 1070 034c 01F4      		brne .L38
- 1071               	.LBE193:
- 1072               	.LBE231:
- 1074               	.Ltext30:
+ 1032               	.LM118:
+ 1033 032c D89A      		sbi 0x1b,0
+ 1034               	.LBE230:
+ 1035               	.LBE229:
+ 1037               	.LM119:
+ 1038 032e 4092 0000 		sts state,r4
+ 1039 0332 88E8      		ldi r24,lo8(-120)
+ 1040 0334 93E1      		ldi r25,lo8(19)
+ 1041               	.L33:
+ 1042               	.LBB231:
+ 1043               	.LBB193:
+ 1044               	.LBB192:
+ 1045               	.LBB191:
+ 1047               	.Ltext28:
+ 1049               	.LM120:
+ 1050 0336 FE01      		movw r30,r28
+ 1051               	/* #APP */
+ 1052               	 ;  105 "/usr/lib/avr/include/util/delay_basic.h" 1
+ 1053 0338 3197      		1: sbiw r30,1
+ 1054 033a 01F4      		brne 1b
+ 1055               	 ;  0 "" 2
+ 1056               	/* #NOAPP */
+ 1057 033c 0197      		sbiw r24,1
+ 1058               	.LBE191:
+ 1059               	.LBE192:
+ 1061               	.Ltext29:
+ 1063               	.LM121:
+ 1064 033e 01F4      		brne .L33
+ 1065               	.LBE193:
+ 1066               	.LBE231:
+ 1068               	.Ltext30:
  292:main.c        ****             _delay_ms(500);
  293:main.c        ****             button_pressed = 0;
- 1076               	.LM121:
- 1077 034e 1092 0000 		sts button_pressed,__zero_reg__
- 1078 0352 1092 0000 		sts button_pressed+1,__zero_reg__
- 1079 0356 1092 0000 		sts button_pressed+2,__zero_reg__
- 1080 035a 1092 0000 		sts button_pressed+3,__zero_reg__
- 1081 035e 1092 0000 		sts button_pressed+4,__zero_reg__
- 1082 0362 1092 0000 		sts button_pressed+5,__zero_reg__
- 1083 0366 1092 0000 		sts button_pressed+6,__zero_reg__
- 1084 036a 1092 0000 		sts button_pressed+7,__zero_reg__
- 1085               	.L20:
+ 1070               	.LM122:
+ 1071 0340 1092 0000 		sts button_pressed,__zero_reg__
+ 1072 0344 1092 0000 		sts button_pressed+1,__zero_reg__
+ 1073 0348 1092 0000 		sts button_pressed+2,__zero_reg__
+ 1074 034c 1092 0000 		sts button_pressed+3,__zero_reg__
+ 1075 0350 1092 0000 		sts button_pressed+4,__zero_reg__
+ 1076 0354 1092 0000 		sts button_pressed+5,__zero_reg__
+ 1077 0358 1092 0000 		sts button_pressed+6,__zero_reg__
+ 1078 035c 1092 0000 		sts button_pressed+7,__zero_reg__
+ 1079               	.L16:
  294:main.c        ****           }
  295:main.c        ****         }        
  296:main.c        ****     }
  297:main.c        ****     sleep_mode(); // wait for interrupt or UART RX
- 1087               	.LM122:
- 1088 036e 85B7      		in r24,0x35
- 1089 0370 8062      		ori r24,lo8(32)
- 1090 0372 85BF      		out 0x35,r24
- 1091               	/* #APP */
- 1092               	 ;  297 "main.c" 1
- 1093 0374 8895      		sleep
- 1094               		
- 1095               	 ;  0 "" 2
- 1096               	/* #NOAPP */
- 1097 0376 85B7      		in r24,0x35
- 1098 0378 8F7D      		andi r24,lo8(-33)
- 1099 037a 85BF      		out 0x35,r24
+ 1081               	.LM123:
+ 1082 0360 85B7      		in r24,0x35
+ 1083 0362 8062      		ori r24,lo8(32)
+ 1084 0364 85BF      		out 0x35,r24
+ 1085               	/* #APP */
+ 1086               	 ;  297 "main.c" 1
+ 1087 0366 8895      		sleep
+ 1088               		
+ 1089               	 ;  0 "" 2
+ 1090               	/* #NOAPP */
+ 1091 0368 85B7      		in r24,0x35
+ 1092 036a 8F7D      		andi r24,lo8(-33)
+ 1093 036c 85BF      		out 0x35,r24
  298:main.c        **** 
  299:main.c        ****     /*const uint16_t c = uart_getc();
  300:main.c        ****     if (c == UART_NO_DATA) {
@@ -1481,223 +1475,223 @@
  305:main.c        ****     }*/
  306:main.c        ****     
  307:main.c        ****   }
- 1101               	.LM123:
- 1102 037c 00C0      		rjmp .L39
- 1104               	.Lscope6:
- 1106               		.stabd	78,0,0
- 1107               		.text
- 1109               	.global	__vector_1
- 1111               	__vector_1:
- 1112               		.stabd	46,0,0
+ 1095               	.LM124:
+ 1096 036e 00C0      		rjmp .L34
+ 1098               	.Lscope6:
+ 1100               		.stabd	78,0,0
+ 1101               		.text
+ 1103               	.global	__vector_1
+ 1105               	__vector_1:
+ 1106               		.stabd	46,0,0
  308:main.c        **** 
  309:main.c        ****   return 0;
  310:main.c        **** 
  311:main.c        **** }
  312:main.c        **** 
  313:main.c        **** ISR(INT0_vect) {
- 1114               	.LM124:
- 1115               	.LFBB7:
- 1116 003c 1F92      		push r1
- 1117 003e 0F92      		push r0
- 1118 0040 0FB6      		in r0,__SREG__
- 1119 0042 0F92      		push r0
- 1120 0044 1124      		clr __zero_reg__
- 1121 0046 2F93      		push r18
- 1122 0048 3F93      		push r19
- 1123 004a 4F93      		push r20
- 1124 004c 5F93      		push r21
- 1125 004e 6F93      		push r22
- 1126 0050 7F93      		push r23
- 1127 0052 8F93      		push r24
- 1128 0054 9F93      		push r25
- 1129 0056 AF93      		push r26
- 1130               	/* prologue: Signal */
- 1131               	/* frame size = 0 */
- 1132               	/* stack size = 12 */
- 1133               	.L__stack_usage = 12
+ 1108               	.LM125:
+ 1109               	.LFBB7:
+ 1110 003a 1F92      		push r1
+ 1111 003c 0F92      		push r0
+ 1112 003e 0FB6      		in r0,__SREG__
+ 1113 0040 0F92      		push r0
+ 1114 0042 1124      		clr __zero_reg__
+ 1115 0044 2F93      		push r18
+ 1116 0046 3F93      		push r19
+ 1117 0048 4F93      		push r20
+ 1118 004a 5F93      		push r21
+ 1119 004c 6F93      		push r22
+ 1120 004e 7F93      		push r23
+ 1121 0050 8F93      		push r24
+ 1122 0052 9F93      		push r25
+ 1123 0054 AF93      		push r26
+ 1124               	/* prologue: Signal */
+ 1125               	/* frame size = 0 */
+ 1126               	/* stack size = 12 */
+ 1127               	.L__stack_usage = 12
  314:main.c        ****   if (button_pressed == 0) { button_pressed = seconds; }
- 1135               	.LM125:
- 1136 0058 2091 0000 		lds r18,button_pressed
- 1137 005c 3091 0000 		lds r19,button_pressed+1
- 1138 0060 4091 0000 		lds r20,button_pressed+2
- 1139 0064 5091 0000 		lds r21,button_pressed+3
- 1140 0068 6091 0000 		lds r22,button_pressed+4
- 1141 006c 7091 0000 		lds r23,button_pressed+5
- 1142 0070 8091 0000 		lds r24,button_pressed+6
- 1143 0074 9091 0000 		lds r25,button_pressed+7
- 1144 0078 A0E0      		ldi r26,0
- 1145 007a 00D0      		rcall __cmpdi2_s8
- 1146 007c 01F4      		brne .L53
- 1148               	.LM126:
- 1149 007e 7091 0000 		lds r23,seconds
- 1150 0082 6091 0000 		lds r22,seconds+1
- 1151 0086 5091 0000 		lds r21,seconds+2
- 1152 008a 4091 0000 		lds r20,seconds+3
- 1153 008e 3091 0000 		lds r19,seconds+4
- 1154 0092 2091 0000 		lds r18,seconds+5
- 1155 0096 9091 0000 		lds r25,seconds+6
- 1156 009a 8091 0000 		lds r24,seconds+7
- 1157 009e 7093 0000 		sts button_pressed,r23
- 1158 00a2 6093 0000 		sts button_pressed+1,r22
- 1159 00a6 5093 0000 		sts button_pressed+2,r21
- 1160 00aa 4093 0000 		sts button_pressed+3,r20
- 1161 00ae 3093 0000 		sts button_pressed+4,r19
- 1162 00b2 2093 0000 		sts button_pressed+5,r18
- 1163 00b6 9093 0000 		sts button_pressed+6,r25
- 1164 00ba 8093 0000 		sts button_pressed+7,r24
- 1165               	.L53:
- 1166               	/* epilogue start */
+ 1129               	.LM126:
+ 1130 0056 2091 0000 		lds r18,button_pressed
+ 1131 005a 3091 0000 		lds r19,button_pressed+1
+ 1132 005e 4091 0000 		lds r20,button_pressed+2
+ 1133 0062 5091 0000 		lds r21,button_pressed+3
+ 1134 0066 6091 0000 		lds r22,button_pressed+4
+ 1135 006a 7091 0000 		lds r23,button_pressed+5
+ 1136 006e 8091 0000 		lds r24,button_pressed+6
+ 1137 0072 9091 0000 		lds r25,button_pressed+7
+ 1138 0076 A0E0      		ldi r26,0
+ 1139 0078 00D0      		rcall __cmpdi2_s8
+ 1140 007a 01F4      		brne .L56
+ 1142               	.LM127:
+ 1143 007c 7091 0000 		lds r23,seconds
+ 1144 0080 6091 0000 		lds r22,seconds+1
+ 1145 0084 5091 0000 		lds r21,seconds+2
+ 1146 0088 4091 0000 		lds r20,seconds+3
+ 1147 008c 3091 0000 		lds r19,seconds+4
+ 1148 0090 2091 0000 		lds r18,seconds+5
+ 1149 0094 9091 0000 		lds r25,seconds+6
+ 1150 0098 8091 0000 		lds r24,seconds+7
+ 1151 009c 7093 0000 		sts button_pressed,r23
+ 1152 00a0 6093 0000 		sts button_pressed+1,r22
+ 1153 00a4 5093 0000 		sts button_pressed+2,r21
+ 1154 00a8 4093 0000 		sts button_pressed+3,r20
+ 1155 00ac 3093 0000 		sts button_pressed+4,r19
+ 1156 00b0 2093 0000 		sts button_pressed+5,r18
+ 1157 00b4 9093 0000 		sts button_pressed+6,r25
+ 1158 00b8 8093 0000 		sts button_pressed+7,r24
+ 1159               	.L56:
+ 1160               	/* epilogue start */
  315:main.c        **** }
- 1168               	.LM127:
- 1169 00be AF91      		pop r26
- 1170 00c0 9F91      		pop r25
- 1171 00c2 8F91      		pop r24
- 1172 00c4 7F91      		pop r23
- 1173 00c6 6F91      		pop r22
- 1174 00c8 5F91      		pop r21
- 1175 00ca 4F91      		pop r20
- 1176 00cc 3F91      		pop r19
- 1177 00ce 2F91      		pop r18
- 1178 00d0 0F90      		pop r0
- 1179 00d2 0FBE      		out __SREG__,r0
- 1180 00d4 0F90      		pop r0
- 1181 00d6 1F90      		pop r1
- 1182 00d8 1895      		reti
- 1184               	.Lscope7:
- 1186               		.stabd	78,0,0
- 1188               	.global	__vector_2
- 1190               	__vector_2:
- 1191               		.stabd	46,0,0
+ 1162               	.LM128:
+ 1163 00bc AF91      		pop r26
+ 1164 00be 9F91      		pop r25
+ 1165 00c0 8F91      		pop r24
+ 1166 00c2 7F91      		pop r23
+ 1167 00c4 6F91      		pop r22
+ 1168 00c6 5F91      		pop r21
+ 1169 00c8 4F91      		pop r20
+ 1170 00ca 3F91      		pop r19
+ 1171 00cc 2F91      		pop r18
+ 1172 00ce 0F90      		pop r0
+ 1173 00d0 0FBE      		out __SREG__,r0
+ 1174 00d2 0F90      		pop r0
+ 1175 00d4 1F90      		pop r1
+ 1176 00d6 1895      		reti
+ 1178               	.Lscope7:
+ 1180               		.stabd	78,0,0
+ 1182               	.global	__vector_2
+ 1184               	__vector_2:
+ 1185               		.stabd	46,0,0
  316:main.c        **** 
  317:main.c        **** ISR(INT1_vect) { 
- 1193               	.LM128:
- 1194               	.LFBB8:
- 1195 00da 1F92      		push r1
- 1196 00dc 0F92      		push r0
- 1197 00de 0FB6      		in r0,__SREG__
- 1198 00e0 0F92      		push r0
- 1199 00e2 1124      		clr __zero_reg__
- 1200 00e4 8F93      		push r24
- 1201 00e6 9F93      		push r25
- 1202               	/* prologue: Signal */
- 1203               	/* frame size = 0 */
- 1204               	/* stack size = 5 */
- 1205               	.L__stack_usage = 5
+ 1187               	.LM129:
+ 1188               	.LFBB8:
+ 1189 00d8 1F92      		push r1
+ 1190 00da 0F92      		push r0
+ 1191 00dc 0FB6      		in r0,__SREG__
+ 1192 00de 0F92      		push r0
+ 1193 00e0 1124      		clr __zero_reg__
+ 1194 00e2 8F93      		push r24
+ 1195 00e4 9F93      		push r25
+ 1196               	/* prologue: Signal */
+ 1197               	/* frame size = 0 */
+ 1198               	/* stack size = 5 */
+ 1199               	.L__stack_usage = 5
  318:main.c        ****   wake_triggered = 1;
- 1207               	.LM129:
- 1208 00e8 81E0      		ldi r24,lo8(1)
- 1209 00ea 90E0      		ldi r25,0
- 1210 00ec 9093 0000 		sts wake_triggered+1,r25
- 1211 00f0 8093 0000 		sts wake_triggered,r24
- 1212               	/* epilogue start */
+ 1201               	.LM130:
+ 1202 00e6 81E0      		ldi r24,lo8(1)
+ 1203 00e8 90E0      		ldi r25,0
+ 1204 00ea 9093 0000 		sts wake_triggered+1,r25
+ 1205 00ee 8093 0000 		sts wake_triggered,r24
+ 1206               	/* epilogue start */
  319:main.c        **** }
- 1214               	.LM130:
- 1215 00f4 9F91      		pop r25
- 1216 00f6 8F91      		pop r24
- 1217 00f8 0F90      		pop r0
- 1218 00fa 0FBE      		out __SREG__,r0
- 1219 00fc 0F90      		pop r0
- 1220 00fe 1F90      		pop r1
- 1221 0100 1895      		reti
- 1223               	.Lscope8:
- 1225               		.stabd	78,0,0
- 1227               	.global	__vector_18
- 1229               	__vector_18:
- 1230               		.stabd	46,0,0
+ 1208               	.LM131:
+ 1209 00f2 9F91      		pop r25
+ 1210 00f4 8F91      		pop r24
+ 1211 00f6 0F90      		pop r0
+ 1212 00f8 0FBE      		out __SREG__,r0
+ 1213 00fa 0F90      		pop r0
+ 1214 00fc 1F90      		pop r1
+ 1215 00fe 1895      		reti
+ 1217               	.Lscope8:
+ 1219               		.stabd	78,0,0
+ 1221               	.global	__vector_18
+ 1223               	__vector_18:
+ 1224               		.stabd	46,0,0
  320:main.c        **** 
  321:main.c        **** ISR(WDT_OVERFLOW_vect) {
- 1232               	.LM131:
- 1233               	.LFBB9:
- 1234 0102 1F92      		push r1
- 1235 0104 0F92      		push r0
- 1236 0106 0FB6      		in r0,__SREG__
- 1237 0108 0F92      		push r0
- 1238 010a 1124      		clr __zero_reg__
- 1239 010c 2F93      		push r18
- 1240 010e 3F93      		push r19
- 1241 0110 4F93      		push r20
- 1242 0112 5F93      		push r21
- 1243 0114 6F93      		push r22
- 1244 0116 7F93      		push r23
- 1245 0118 8F93      		push r24
- 1246 011a 9F93      		push r25
- 1247 011c AF93      		push r26
- 1248               	/* prologue: Signal */
- 1249               	/* frame size = 0 */
- 1250               	/* stack size = 12 */
- 1251               	.L__stack_usage = 12
+ 1226               	.LM132:
+ 1227               	.LFBB9:
+ 1228 0100 1F92      		push r1
+ 1229 0102 0F92      		push r0
+ 1230 0104 0FB6      		in r0,__SREG__
+ 1231 0106 0F92      		push r0
+ 1232 0108 1124      		clr __zero_reg__
+ 1233 010a 2F93      		push r18
+ 1234 010c 3F93      		push r19
+ 1235 010e 4F93      		push r20
+ 1236 0110 5F93      		push r21
+ 1237 0112 6F93      		push r22
+ 1238 0114 7F93      		push r23
+ 1239 0116 8F93      		push r24
+ 1240 0118 9F93      		push r25
+ 1241 011a AF93      		push r26
+ 1242               	/* prologue: Signal */
+ 1243               	/* frame size = 0 */
+ 1244               	/* stack size = 12 */
+ 1245               	.L__stack_usage = 12
  322:main.c        ****   ++seconds;
- 1253               	.LM132:
- 1254 011e 2091 0000 		lds r18,seconds
- 1255 0122 3091 0000 		lds r19,seconds+1
- 1256 0126 4091 0000 		lds r20,seconds+2
- 1257 012a 5091 0000 		lds r21,seconds+3
- 1258 012e 6091 0000 		lds r22,seconds+4
- 1259 0132 7091 0000 		lds r23,seconds+5
- 1260 0136 8091 0000 		lds r24,seconds+6
- 1261 013a 9091 0000 		lds r25,seconds+7
- 1262 013e A1E0      		ldi r26,lo8(1)
- 1263 0140 00D0      		rcall __adddi3_s8
- 1264 0142 2093 0000 		sts seconds,r18
- 1265 0146 3093 0000 		sts seconds+1,r19
- 1266 014a 4093 0000 		sts seconds+2,r20
- 1267 014e 5093 0000 		sts seconds+3,r21
- 1268 0152 6093 0000 		sts seconds+4,r22
- 1269 0156 7093 0000 		sts seconds+5,r23
- 1270 015a 8093 0000 		sts seconds+6,r24
- 1271 015e 9093 0000 		sts seconds+7,r25
- 1272               	/* epilogue start */
+ 1247               	.LM133:
+ 1248 011c 2091 0000 		lds r18,seconds
+ 1249 0120 3091 0000 		lds r19,seconds+1
+ 1250 0124 4091 0000 		lds r20,seconds+2
+ 1251 0128 5091 0000 		lds r21,seconds+3
+ 1252 012c 6091 0000 		lds r22,seconds+4
+ 1253 0130 7091 0000 		lds r23,seconds+5
+ 1254 0134 8091 0000 		lds r24,seconds+6
+ 1255 0138 9091 0000 		lds r25,seconds+7
+ 1256 013c A1E0      		ldi r26,lo8(1)
+ 1257 013e 00D0      		rcall __adddi3_s8
+ 1258 0140 2093 0000 		sts seconds,r18
+ 1259 0144 3093 0000 		sts seconds+1,r19
+ 1260 0148 4093 0000 		sts seconds+2,r20
+ 1261 014c 5093 0000 		sts seconds+3,r21
+ 1262 0150 6093 0000 		sts seconds+4,r22
+ 1263 0154 7093 0000 		sts seconds+5,r23
+ 1264 0158 8093 0000 		sts seconds+6,r24
+ 1265 015c 9093 0000 		sts seconds+7,r25
+ 1266               	/* epilogue start */
  323:main.c        **** }
- 1274               	.LM133:
- 1275 0162 AF91      		pop r26
- 1276 0164 9F91      		pop r25
- 1277 0166 8F91      		pop r24
- 1278 0168 7F91      		pop r23
- 1279 016a 6F91      		pop r22
- 1280 016c 5F91      		pop r21
- 1281 016e 4F91      		pop r20
- 1282 0170 3F91      		pop r19
- 1283 0172 2F91      		pop r18
- 1284 0174 0F90      		pop r0
- 1285 0176 0FBE      		out __SREG__,r0
- 1286 0178 0F90      		pop r0
- 1287 017a 1F90      		pop r1
- 1288 017c 1895      		reti
- 1290               	.Lscope9:
- 1292               		.stabd	78,0,0
- 1293               		.local	shutdown_timeout
- 1294               		.comm	shutdown_timeout,2,1
- 1295               		.local	wake_triggered
- 1296               		.comm	wake_triggered,2,1
- 1297               		.local	button_pressed
- 1298               		.comm	button_pressed,8,1
- 1299               		.local	seconds
- 1300               		.comm	seconds,8,1
- 1301               		.local	state
- 1302               		.comm	state,1,1
- 1309               	.Letext0:
- 1310               		.ident	"GCC: (GNU) 4.8.1"
- 1311               	.global __do_clear_bss
+ 1268               	.LM134:
+ 1269 0160 AF91      		pop r26
+ 1270 0162 9F91      		pop r25
+ 1271 0164 8F91      		pop r24
+ 1272 0166 7F91      		pop r23
+ 1273 0168 6F91      		pop r22
+ 1274 016a 5F91      		pop r21
+ 1275 016c 4F91      		pop r20
+ 1276 016e 3F91      		pop r19
+ 1277 0170 2F91      		pop r18
+ 1278 0172 0F90      		pop r0
+ 1279 0174 0FBE      		out __SREG__,r0
+ 1280 0176 0F90      		pop r0
+ 1281 0178 1F90      		pop r1
+ 1282 017a 1895      		reti
+ 1284               	.Lscope9:
+ 1286               		.stabd	78,0,0
+ 1287               		.local	shutdown_timeout
+ 1288               		.comm	shutdown_timeout,2,1
+ 1289               		.local	wake_triggered
+ 1290               		.comm	wake_triggered,2,1
+ 1291               		.local	button_pressed
+ 1292               		.comm	button_pressed,8,1
+ 1293               		.local	seconds
+ 1294               		.comm	seconds,8,1
+ 1295               		.local	state
+ 1296               		.comm	state,1,1
+ 1303               	.Letext0:
+ 1304               		.ident	"GCC: (GNU) 4.9.2"
+ 1305               	.global __do_clear_bss
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 main.c
-     /tmp/ccXJ0O4x.s:2      *ABS*:000000000000003d __SP_L__
-     /tmp/ccXJ0O4x.s:3      *ABS*:000000000000003f __SREG__
-     /tmp/ccXJ0O4x.s:4      *ABS*:0000000000000000 __tmp_reg__
-     /tmp/ccXJ0O4x.s:5      *ABS*:0000000000000001 __zero_reg__
-     /tmp/ccXJ0O4x.s:115    .text:0000000000000000 led0_off
-     /tmp/ccXJ0O4x.s:134    .text:0000000000000004 led1_off
-     /tmp/ccXJ0O4x.s:153    .text:0000000000000008 led2_off
-     /tmp/ccXJ0O4x.s:172    .text:000000000000000c raspi_on
-     /tmp/ccXJ0O4x.s:235    .text:000000000000002e raspi_off
-     /tmp/ccXJ0O4x.s:267    .text.startup:0000000000000000 main
-     /tmp/ccXJ0O4x.s:1298   .bss:000000000000000c seconds
-     /tmp/ccXJ0O4x.s:1296   .bss:0000000000000004 button_pressed
-     /tmp/ccXJ0O4x.s:1300   .bss:0000000000000014 state
+     /tmp/ccwMIfa0.s:2      *ABS*:000000000000003d __SP_L__
+     /tmp/ccwMIfa0.s:3      *ABS*:000000000000003f __SREG__
+     /tmp/ccwMIfa0.s:4      *ABS*:0000000000000000 __tmp_reg__
+     /tmp/ccwMIfa0.s:5      *ABS*:0000000000000001 __zero_reg__
+     /tmp/ccwMIfa0.s:115    .text:0000000000000000 led0_off
+     /tmp/ccwMIfa0.s:134    .text:0000000000000004 led1_off
+     /tmp/ccwMIfa0.s:153    .text:0000000000000008 led2_off
+     /tmp/ccwMIfa0.s:172    .text:000000000000000c raspi_on
+     /tmp/ccwMIfa0.s:234    .text:000000000000002c raspi_off
+     /tmp/ccwMIfa0.s:266    .text.startup:0000000000000000 main
+     /tmp/ccwMIfa0.s:1292   .bss:000000000000000c seconds
+     /tmp/ccwMIfa0.s:1290   .bss:0000000000000004 button_pressed
+     /tmp/ccwMIfa0.s:1294   .bss:0000000000000014 state
                              .bss:0000000000000000 shutdown_timeout
-     /tmp/ccXJ0O4x.s:1111   .text:000000000000003c __vector_1
-     /tmp/ccXJ0O4x.s:1190   .text:00000000000000da __vector_2
-     /tmp/ccXJ0O4x.s:1294   .bss:0000000000000002 wake_triggered
-     /tmp/ccXJ0O4x.s:1229   .text:0000000000000102 __vector_18
+     /tmp/ccwMIfa0.s:1105   .text:000000000000003a __vector_1
+     /tmp/ccwMIfa0.s:1184   .text:00000000000000d8 __vector_2
+     /tmp/ccwMIfa0.s:1288   .bss:0000000000000002 wake_triggered
+     /tmp/ccwMIfa0.s:1223   .text:0000000000000100 __vector_18
 
 UNDEFINED SYMBOLS
 __subdi3

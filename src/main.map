@@ -1,16 +1,16 @@
-Archive member included because of file (symbol)
+Archive member included to satisfy reference by file (symbol)
 
-/usr/lib/gcc/avr/4.8.1/avr25/tiny-stack/libgcc.a(_exit.o)
-                              /usr/lib/gcc/avr/4.8.1/../../../avr/lib/avr25/tiny-stack/crttn2313.o (exit)
-/usr/lib/gcc/avr/4.8.1/avr25/tiny-stack/libgcc.a(_copy_data.o)
+/usr/lib/gcc/avr/4.9.2/avr25/tiny-stack/libgcc.a(_exit.o)
+                              /usr/lib/gcc/avr/4.9.2/../../../avr/lib/avr25/tiny-stack/crtattiny2313.o (exit)
+/usr/lib/gcc/avr/4.9.2/avr25/tiny-stack/libgcc.a(_copy_data.o)
                               uart.o (__do_copy_data)
-/usr/lib/gcc/avr/4.8.1/avr25/tiny-stack/libgcc.a(_clear_bss.o)
+/usr/lib/gcc/avr/4.9.2/avr25/tiny-stack/libgcc.a(_clear_bss.o)
                               main.o (__do_clear_bss)
-/usr/lib/gcc/avr/4.8.1/avr25/tiny-stack/libgcc.a(_adddi3_s8.o)
+/usr/lib/gcc/avr/4.9.2/avr25/tiny-stack/libgcc.a(_adddi3_s8.o)
                               main.o (__adddi3_s8)
-/usr/lib/gcc/avr/4.8.1/avr25/tiny-stack/libgcc.a(_subdi3.o)
+/usr/lib/gcc/avr/4.9.2/avr25/tiny-stack/libgcc.a(_subdi3.o)
                               main.o (__subdi3)
-/usr/lib/gcc/avr/4.8.1/avr25/tiny-stack/libgcc.a(_cmpdi2_s8.o)
+/usr/lib/gcc/avr/4.9.2/avr25/tiny-stack/libgcc.a(_cmpdi2_s8.o)
                               main.o (__cmpdi2_s8)
 
 Memory Configuration
@@ -27,13 +27,14 @@ user_signatures  0x0000000000850000 0x0000000000000400 rw !x
 
 Linker script and memory map
 
-LOAD /usr/lib/gcc/avr/4.8.1/../../../avr/lib/avr25/tiny-stack/crttn2313.o
+LOAD /usr/lib/gcc/avr/4.9.2/../../../avr/lib/avr25/tiny-stack/crtattiny2313.o
 LOAD main.o
 LOAD uart.o
 START GROUP
-LOAD /usr/lib/gcc/avr/4.8.1/avr25/tiny-stack/libgcc.a
-LOAD /usr/lib/gcc/avr/4.8.1/../../../avr/lib/avr25/tiny-stack/libm.a
-LOAD /usr/lib/gcc/avr/4.8.1/../../../avr/lib/avr25/tiny-stack/libc.a
+LOAD /usr/lib/gcc/avr/4.9.2/avr25/tiny-stack/libgcc.a
+LOAD /usr/lib/gcc/avr/4.9.2/../../../avr/lib/avr25/tiny-stack/libm.a
+LOAD /usr/lib/gcc/avr/4.9.2/../../../avr/lib/avr25/tiny-stack/libc.a
+LOAD /usr/lib/gcc/avr/4.9.2/../../../avr/lib/avr25/tiny-stack/libattiny2313.a
 END GROUP
 
 .hash
@@ -126,9 +127,9 @@ END GROUP
 .rela.plt
  *(.rela.plt)
 
-.text           0x0000000000000000      0x712
+.text           0x0000000000000000      0x702
  *(.vectors)
- .vectors       0x0000000000000000       0x26 /usr/lib/gcc/avr/4.8.1/../../../avr/lib/avr25/tiny-stack/crttn2313.o
+ .vectors       0x0000000000000000       0x26 /usr/lib/gcc/avr/4.9.2/../../../avr/lib/avr25/tiny-stack/crtattiny2313.o
                 0x0000000000000000                __vectors
                 0x0000000000000000                __vector_default
  *(.vectors)
@@ -154,20 +155,20 @@ END GROUP
  SORT(*)(.ctors)
  SORT(*)(.dtors)
  *(.init0)
- .init0         0x0000000000000026        0x0 /usr/lib/gcc/avr/4.8.1/../../../avr/lib/avr25/tiny-stack/crttn2313.o
+ .init0         0x0000000000000026        0x0 /usr/lib/gcc/avr/4.9.2/../../../avr/lib/avr25/tiny-stack/crtattiny2313.o
                 0x0000000000000026                __init
  *(.init0)
  *(.init1)
  *(.init1)
  *(.init2)
- .init2         0x0000000000000026        0x8 /usr/lib/gcc/avr/4.8.1/../../../avr/lib/avr25/tiny-stack/crttn2313.o
+ .init2         0x0000000000000026        0x8 /usr/lib/gcc/avr/4.9.2/../../../avr/lib/avr25/tiny-stack/crtattiny2313.o
  *(.init2)
  *(.init3)
  *(.init3)
  *(.init4)
- .init4         0x000000000000002e       0x16 /usr/lib/gcc/avr/4.8.1/avr25/tiny-stack/libgcc.a(_copy_data.o)
+ .init4         0x000000000000002e       0x16 /usr/lib/gcc/avr/4.9.2/avr25/tiny-stack/libgcc.a(_copy_data.o)
                 0x000000000000002e                __do_copy_data
- .init4         0x0000000000000044       0x10 /usr/lib/gcc/avr/4.8.1/avr25/tiny-stack/libgcc.a(_clear_bss.o)
+ .init4         0x0000000000000044       0x10 /usr/lib/gcc/avr/4.9.2/avr25/tiny-stack/libgcc.a(_clear_bss.o)
                 0x0000000000000044                __do_clear_bss
  *(.init4)
  *(.init5)
@@ -179,10 +180,10 @@ END GROUP
  *(.init8)
  *(.init8)
  *(.init9)
- .init9         0x0000000000000054        0x4 /usr/lib/gcc/avr/4.8.1/../../../avr/lib/avr25/tiny-stack/crttn2313.o
+ .init9         0x0000000000000054        0x4 /usr/lib/gcc/avr/4.9.2/../../../avr/lib/avr25/tiny-stack/crtattiny2313.o
  *(.init9)
  *(.text)
- .text          0x0000000000000058        0x2 /usr/lib/gcc/avr/4.8.1/../../../avr/lib/avr25/tiny-stack/crttn2313.o
+ .text          0x0000000000000058        0x2 /usr/lib/gcc/avr/4.9.2/../../../avr/lib/avr25/tiny-stack/crtattiny2313.o
                 0x0000000000000058                __vector_12
                 0x0000000000000058                __bad_interrupt
                 0x0000000000000058                __vector_6
@@ -197,119 +198,119 @@ END GROUP
                 0x0000000000000058                __vector_14
                 0x0000000000000058                __vector_10
                 0x0000000000000058                __vector_16
- .text          0x000000000000005a      0x17e main.o
-                0x0000000000000096                __vector_1
-                0x0000000000000134                __vector_2
-                0x000000000000015c                __vector_18
- .text          0x00000000000001d8      0x176 uart.o
-                0x00000000000001d8                init_uart
-                0x00000000000001e8                send_uart
-                0x00000000000001f0                receive_uart
-                0x00000000000001f8                uart_getc
-                0x000000000000022c                uart_getc_f
-                0x0000000000000238                uart_getc_wait
-                0x0000000000000244                uart_putc
-                0x0000000000000270                uart_putc_f
-                0x0000000000000278                uart_puts
-                0x000000000000028e                uart_puts_P
-                0x00000000000002ae                __vector_8
-                0x0000000000000300                __vector_7
- .text          0x000000000000034e        0x0 /usr/lib/gcc/avr/4.8.1/avr25/tiny-stack/libgcc.a(_exit.o)
- .text          0x000000000000034e        0x0 /usr/lib/gcc/avr/4.8.1/avr25/tiny-stack/libgcc.a(_copy_data.o)
- .text          0x000000000000034e        0x0 /usr/lib/gcc/avr/4.8.1/avr25/tiny-stack/libgcc.a(_clear_bss.o)
- .text          0x000000000000034e        0x0 /usr/lib/gcc/avr/4.8.1/avr25/tiny-stack/libgcc.a(_adddi3_s8.o)
- .text          0x000000000000034e        0x0 /usr/lib/gcc/avr/4.8.1/avr25/tiny-stack/libgcc.a(_subdi3.o)
- .text          0x000000000000034e        0x0 /usr/lib/gcc/avr/4.8.1/avr25/tiny-stack/libgcc.a(_cmpdi2_s8.o)
-                0x000000000000034e                . = ALIGN (0x2)
+ .text          0x000000000000005a      0x17c main.o
+                0x0000000000000094                __vector_1
+                0x0000000000000132                __vector_2
+                0x000000000000015a                __vector_18
+ .text          0x00000000000001d6      0x176 uart.o
+                0x00000000000001d6                init_uart
+                0x00000000000001e6                send_uart
+                0x00000000000001ee                receive_uart
+                0x00000000000001f6                uart_getc
+                0x000000000000022a                uart_getc_f
+                0x0000000000000236                uart_getc_wait
+                0x0000000000000242                uart_putc
+                0x000000000000026e                uart_putc_f
+                0x0000000000000276                uart_puts
+                0x000000000000028c                uart_puts_P
+                0x00000000000002ac                __vector_8
+                0x00000000000002fe                __vector_7
+ .text          0x000000000000034c        0x0 /usr/lib/gcc/avr/4.9.2/avr25/tiny-stack/libgcc.a(_exit.o)
+ .text          0x000000000000034c        0x0 /usr/lib/gcc/avr/4.9.2/avr25/tiny-stack/libgcc.a(_copy_data.o)
+ .text          0x000000000000034c        0x0 /usr/lib/gcc/avr/4.9.2/avr25/tiny-stack/libgcc.a(_clear_bss.o)
+ .text          0x000000000000034c        0x0 /usr/lib/gcc/avr/4.9.2/avr25/tiny-stack/libgcc.a(_adddi3_s8.o)
+ .text          0x000000000000034c        0x0 /usr/lib/gcc/avr/4.9.2/avr25/tiny-stack/libgcc.a(_subdi3.o)
+ .text          0x000000000000034c        0x0 /usr/lib/gcc/avr/4.9.2/avr25/tiny-stack/libgcc.a(_cmpdi2_s8.o)
+                0x000000000000034c                . = ALIGN (0x2)
  *(.text.*)
- .text.startup  0x000000000000034e      0x37e main.o
-                0x000000000000034e                main
+ .text.startup  0x000000000000034c      0x370 main.o
+                0x000000000000034c                main
  .text.libgcc.mul
-                0x00000000000006cc        0x0 /usr/lib/gcc/avr/4.8.1/avr25/tiny-stack/libgcc.a(_exit.o)
+                0x00000000000006bc        0x0 /usr/lib/gcc/avr/4.9.2/avr25/tiny-stack/libgcc.a(_exit.o)
  .text.libgcc.div
-                0x00000000000006cc        0x0 /usr/lib/gcc/avr/4.8.1/avr25/tiny-stack/libgcc.a(_exit.o)
- .text.libgcc   0x00000000000006cc        0x0 /usr/lib/gcc/avr/4.8.1/avr25/tiny-stack/libgcc.a(_exit.o)
+                0x00000000000006bc        0x0 /usr/lib/gcc/avr/4.9.2/avr25/tiny-stack/libgcc.a(_exit.o)
+ .text.libgcc   0x00000000000006bc        0x0 /usr/lib/gcc/avr/4.9.2/avr25/tiny-stack/libgcc.a(_exit.o)
  .text.libgcc.prologue
-                0x00000000000006cc        0x0 /usr/lib/gcc/avr/4.8.1/avr25/tiny-stack/libgcc.a(_exit.o)
+                0x00000000000006bc        0x0 /usr/lib/gcc/avr/4.9.2/avr25/tiny-stack/libgcc.a(_exit.o)
  .text.libgcc.builtins
-                0x00000000000006cc        0x0 /usr/lib/gcc/avr/4.8.1/avr25/tiny-stack/libgcc.a(_exit.o)
+                0x00000000000006bc        0x0 /usr/lib/gcc/avr/4.9.2/avr25/tiny-stack/libgcc.a(_exit.o)
  .text.libgcc.fmul
-                0x00000000000006cc        0x0 /usr/lib/gcc/avr/4.8.1/avr25/tiny-stack/libgcc.a(_exit.o)
+                0x00000000000006bc        0x0 /usr/lib/gcc/avr/4.9.2/avr25/tiny-stack/libgcc.a(_exit.o)
  .text.libgcc.fixed
-                0x00000000000006cc        0x0 /usr/lib/gcc/avr/4.8.1/avr25/tiny-stack/libgcc.a(_exit.o)
+                0x00000000000006bc        0x0 /usr/lib/gcc/avr/4.9.2/avr25/tiny-stack/libgcc.a(_exit.o)
  .text.libgcc.mul
-                0x00000000000006cc        0x0 /usr/lib/gcc/avr/4.8.1/avr25/tiny-stack/libgcc.a(_copy_data.o)
+                0x00000000000006bc        0x0 /usr/lib/gcc/avr/4.9.2/avr25/tiny-stack/libgcc.a(_copy_data.o)
  .text.libgcc.div
-                0x00000000000006cc        0x0 /usr/lib/gcc/avr/4.8.1/avr25/tiny-stack/libgcc.a(_copy_data.o)
- .text.libgcc   0x00000000000006cc        0x0 /usr/lib/gcc/avr/4.8.1/avr25/tiny-stack/libgcc.a(_copy_data.o)
+                0x00000000000006bc        0x0 /usr/lib/gcc/avr/4.9.2/avr25/tiny-stack/libgcc.a(_copy_data.o)
+ .text.libgcc   0x00000000000006bc        0x0 /usr/lib/gcc/avr/4.9.2/avr25/tiny-stack/libgcc.a(_copy_data.o)
  .text.libgcc.prologue
-                0x00000000000006cc        0x0 /usr/lib/gcc/avr/4.8.1/avr25/tiny-stack/libgcc.a(_copy_data.o)
+                0x00000000000006bc        0x0 /usr/lib/gcc/avr/4.9.2/avr25/tiny-stack/libgcc.a(_copy_data.o)
  .text.libgcc.builtins
-                0x00000000000006cc        0x0 /usr/lib/gcc/avr/4.8.1/avr25/tiny-stack/libgcc.a(_copy_data.o)
+                0x00000000000006bc        0x0 /usr/lib/gcc/avr/4.9.2/avr25/tiny-stack/libgcc.a(_copy_data.o)
  .text.libgcc.fmul
-                0x00000000000006cc        0x0 /usr/lib/gcc/avr/4.8.1/avr25/tiny-stack/libgcc.a(_copy_data.o)
+                0x00000000000006bc        0x0 /usr/lib/gcc/avr/4.9.2/avr25/tiny-stack/libgcc.a(_copy_data.o)
  .text.libgcc.fixed
-                0x00000000000006cc        0x0 /usr/lib/gcc/avr/4.8.1/avr25/tiny-stack/libgcc.a(_copy_data.o)
+                0x00000000000006bc        0x0 /usr/lib/gcc/avr/4.9.2/avr25/tiny-stack/libgcc.a(_copy_data.o)
  .text.libgcc.mul
-                0x00000000000006cc        0x0 /usr/lib/gcc/avr/4.8.1/avr25/tiny-stack/libgcc.a(_clear_bss.o)
+                0x00000000000006bc        0x0 /usr/lib/gcc/avr/4.9.2/avr25/tiny-stack/libgcc.a(_clear_bss.o)
  .text.libgcc.div
-                0x00000000000006cc        0x0 /usr/lib/gcc/avr/4.8.1/avr25/tiny-stack/libgcc.a(_clear_bss.o)
- .text.libgcc   0x00000000000006cc        0x0 /usr/lib/gcc/avr/4.8.1/avr25/tiny-stack/libgcc.a(_clear_bss.o)
+                0x00000000000006bc        0x0 /usr/lib/gcc/avr/4.9.2/avr25/tiny-stack/libgcc.a(_clear_bss.o)
+ .text.libgcc   0x00000000000006bc        0x0 /usr/lib/gcc/avr/4.9.2/avr25/tiny-stack/libgcc.a(_clear_bss.o)
  .text.libgcc.prologue
-                0x00000000000006cc        0x0 /usr/lib/gcc/avr/4.8.1/avr25/tiny-stack/libgcc.a(_clear_bss.o)
+                0x00000000000006bc        0x0 /usr/lib/gcc/avr/4.9.2/avr25/tiny-stack/libgcc.a(_clear_bss.o)
  .text.libgcc.builtins
-                0x00000000000006cc        0x0 /usr/lib/gcc/avr/4.8.1/avr25/tiny-stack/libgcc.a(_clear_bss.o)
+                0x00000000000006bc        0x0 /usr/lib/gcc/avr/4.9.2/avr25/tiny-stack/libgcc.a(_clear_bss.o)
  .text.libgcc.fmul
-                0x00000000000006cc        0x0 /usr/lib/gcc/avr/4.8.1/avr25/tiny-stack/libgcc.a(_clear_bss.o)
+                0x00000000000006bc        0x0 /usr/lib/gcc/avr/4.9.2/avr25/tiny-stack/libgcc.a(_clear_bss.o)
  .text.libgcc.fixed
-                0x00000000000006cc        0x0 /usr/lib/gcc/avr/4.8.1/avr25/tiny-stack/libgcc.a(_clear_bss.o)
+                0x00000000000006bc        0x0 /usr/lib/gcc/avr/4.9.2/avr25/tiny-stack/libgcc.a(_clear_bss.o)
  .text.libgcc.mul
-                0x00000000000006cc        0x0 /usr/lib/gcc/avr/4.8.1/avr25/tiny-stack/libgcc.a(_adddi3_s8.o)
+                0x00000000000006bc        0x0 /usr/lib/gcc/avr/4.9.2/avr25/tiny-stack/libgcc.a(_adddi3_s8.o)
  .text.libgcc.div
-                0x00000000000006cc        0x0 /usr/lib/gcc/avr/4.8.1/avr25/tiny-stack/libgcc.a(_adddi3_s8.o)
- .text.libgcc   0x00000000000006cc       0x18 /usr/lib/gcc/avr/4.8.1/avr25/tiny-stack/libgcc.a(_adddi3_s8.o)
-                0x00000000000006cc                __adddi3_s8
+                0x00000000000006bc        0x0 /usr/lib/gcc/avr/4.9.2/avr25/tiny-stack/libgcc.a(_adddi3_s8.o)
+ .text.libgcc   0x00000000000006bc       0x18 /usr/lib/gcc/avr/4.9.2/avr25/tiny-stack/libgcc.a(_adddi3_s8.o)
+                0x00000000000006bc                __adddi3_s8
  .text.libgcc.prologue
-                0x00000000000006e4        0x0 /usr/lib/gcc/avr/4.8.1/avr25/tiny-stack/libgcc.a(_adddi3_s8.o)
+                0x00000000000006d4        0x0 /usr/lib/gcc/avr/4.9.2/avr25/tiny-stack/libgcc.a(_adddi3_s8.o)
  .text.libgcc.builtins
-                0x00000000000006e4        0x0 /usr/lib/gcc/avr/4.8.1/avr25/tiny-stack/libgcc.a(_adddi3_s8.o)
+                0x00000000000006d4        0x0 /usr/lib/gcc/avr/4.9.2/avr25/tiny-stack/libgcc.a(_adddi3_s8.o)
  .text.libgcc.fmul
-                0x00000000000006e4        0x0 /usr/lib/gcc/avr/4.8.1/avr25/tiny-stack/libgcc.a(_adddi3_s8.o)
+                0x00000000000006d4        0x0 /usr/lib/gcc/avr/4.9.2/avr25/tiny-stack/libgcc.a(_adddi3_s8.o)
  .text.libgcc.fixed
-                0x00000000000006e4        0x0 /usr/lib/gcc/avr/4.8.1/avr25/tiny-stack/libgcc.a(_adddi3_s8.o)
+                0x00000000000006d4        0x0 /usr/lib/gcc/avr/4.9.2/avr25/tiny-stack/libgcc.a(_adddi3_s8.o)
  .text.libgcc.mul
-                0x00000000000006e4        0x0 /usr/lib/gcc/avr/4.8.1/avr25/tiny-stack/libgcc.a(_subdi3.o)
+                0x00000000000006d4        0x0 /usr/lib/gcc/avr/4.9.2/avr25/tiny-stack/libgcc.a(_subdi3.o)
  .text.libgcc.div
-                0x00000000000006e4        0x0 /usr/lib/gcc/avr/4.8.1/avr25/tiny-stack/libgcc.a(_subdi3.o)
- .text.libgcc   0x00000000000006e4       0x12 /usr/lib/gcc/avr/4.8.1/avr25/tiny-stack/libgcc.a(_subdi3.o)
-                0x00000000000006e4                __subdi3
+                0x00000000000006d4        0x0 /usr/lib/gcc/avr/4.9.2/avr25/tiny-stack/libgcc.a(_subdi3.o)
+ .text.libgcc   0x00000000000006d4       0x12 /usr/lib/gcc/avr/4.9.2/avr25/tiny-stack/libgcc.a(_subdi3.o)
+                0x00000000000006d4                __subdi3
  .text.libgcc.prologue
-                0x00000000000006f6        0x0 /usr/lib/gcc/avr/4.8.1/avr25/tiny-stack/libgcc.a(_subdi3.o)
+                0x00000000000006e6        0x0 /usr/lib/gcc/avr/4.9.2/avr25/tiny-stack/libgcc.a(_subdi3.o)
  .text.libgcc.builtins
-                0x00000000000006f6        0x0 /usr/lib/gcc/avr/4.8.1/avr25/tiny-stack/libgcc.a(_subdi3.o)
+                0x00000000000006e6        0x0 /usr/lib/gcc/avr/4.9.2/avr25/tiny-stack/libgcc.a(_subdi3.o)
  .text.libgcc.fmul
-                0x00000000000006f6        0x0 /usr/lib/gcc/avr/4.8.1/avr25/tiny-stack/libgcc.a(_subdi3.o)
+                0x00000000000006e6        0x0 /usr/lib/gcc/avr/4.9.2/avr25/tiny-stack/libgcc.a(_subdi3.o)
  .text.libgcc.fixed
-                0x00000000000006f6        0x0 /usr/lib/gcc/avr/4.8.1/avr25/tiny-stack/libgcc.a(_subdi3.o)
+                0x00000000000006e6        0x0 /usr/lib/gcc/avr/4.9.2/avr25/tiny-stack/libgcc.a(_subdi3.o)
  .text.libgcc.mul
-                0x00000000000006f6        0x0 /usr/lib/gcc/avr/4.8.1/avr25/tiny-stack/libgcc.a(_cmpdi2_s8.o)
+                0x00000000000006e6        0x0 /usr/lib/gcc/avr/4.9.2/avr25/tiny-stack/libgcc.a(_cmpdi2_s8.o)
  .text.libgcc.div
-                0x00000000000006f6        0x0 /usr/lib/gcc/avr/4.8.1/avr25/tiny-stack/libgcc.a(_cmpdi2_s8.o)
- .text.libgcc   0x00000000000006f6       0x18 /usr/lib/gcc/avr/4.8.1/avr25/tiny-stack/libgcc.a(_cmpdi2_s8.o)
-                0x00000000000006f6                __cmpdi2_s8
+                0x00000000000006e6        0x0 /usr/lib/gcc/avr/4.9.2/avr25/tiny-stack/libgcc.a(_cmpdi2_s8.o)
+ .text.libgcc   0x00000000000006e6       0x18 /usr/lib/gcc/avr/4.9.2/avr25/tiny-stack/libgcc.a(_cmpdi2_s8.o)
+                0x00000000000006e6                __cmpdi2_s8
  .text.libgcc.prologue
-                0x000000000000070e        0x0 /usr/lib/gcc/avr/4.8.1/avr25/tiny-stack/libgcc.a(_cmpdi2_s8.o)
+                0x00000000000006fe        0x0 /usr/lib/gcc/avr/4.9.2/avr25/tiny-stack/libgcc.a(_cmpdi2_s8.o)
  .text.libgcc.builtins
-                0x000000000000070e        0x0 /usr/lib/gcc/avr/4.8.1/avr25/tiny-stack/libgcc.a(_cmpdi2_s8.o)
+                0x00000000000006fe        0x0 /usr/lib/gcc/avr/4.9.2/avr25/tiny-stack/libgcc.a(_cmpdi2_s8.o)
  .text.libgcc.fmul
-                0x000000000000070e        0x0 /usr/lib/gcc/avr/4.8.1/avr25/tiny-stack/libgcc.a(_cmpdi2_s8.o)
+                0x00000000000006fe        0x0 /usr/lib/gcc/avr/4.9.2/avr25/tiny-stack/libgcc.a(_cmpdi2_s8.o)
  .text.libgcc.fixed
-                0x000000000000070e        0x0 /usr/lib/gcc/avr/4.8.1/avr25/tiny-stack/libgcc.a(_cmpdi2_s8.o)
-                0x000000000000070e                . = ALIGN (0x2)
+                0x00000000000006fe        0x0 /usr/lib/gcc/avr/4.9.2/avr25/tiny-stack/libgcc.a(_cmpdi2_s8.o)
+                0x00000000000006fe                . = ALIGN (0x2)
  *(.fini9)
- .fini9         0x000000000000070e        0x0 /usr/lib/gcc/avr/4.8.1/avr25/tiny-stack/libgcc.a(_exit.o)
-                0x000000000000070e                exit
-                0x000000000000070e                _exit
+ .fini9         0x00000000000006fe        0x0 /usr/lib/gcc/avr/4.9.2/avr25/tiny-stack/libgcc.a(_exit.o)
+                0x00000000000006fe                exit
+                0x00000000000006fe                _exit
  *(.fini9)
  *(.fini8)
  *(.fini8)
@@ -328,22 +329,22 @@ END GROUP
  *(.fini1)
  *(.fini1)
  *(.fini0)
- .fini0         0x000000000000070e        0x4 /usr/lib/gcc/avr/4.8.1/avr25/tiny-stack/libgcc.a(_exit.o)
+ .fini0         0x00000000000006fe        0x4 /usr/lib/gcc/avr/4.9.2/avr25/tiny-stack/libgcc.a(_exit.o)
  *(.fini0)
-                0x0000000000000712                _etext = .
+                0x0000000000000702                _etext = .
 
-.data           0x0000000000800060       0x22 load address 0x0000000000000712
+.data           0x0000000000800060       0x22 load address 0x0000000000000702
                 0x0000000000800060                PROVIDE (__data_start, .)
  *(.data)
- .data          0x0000000000800060        0x0 /usr/lib/gcc/avr/4.8.1/../../../avr/lib/avr25/tiny-stack/crttn2313.o
+ .data          0x0000000000800060        0x0 /usr/lib/gcc/avr/4.9.2/../../../avr/lib/avr25/tiny-stack/crtattiny2313.o
  .data          0x0000000000800060        0x0 main.o
  .data          0x0000000000800060       0x21 uart.o
- .data          0x0000000000800081        0x0 /usr/lib/gcc/avr/4.8.1/avr25/tiny-stack/libgcc.a(_exit.o)
- .data          0x0000000000800081        0x0 /usr/lib/gcc/avr/4.8.1/avr25/tiny-stack/libgcc.a(_copy_data.o)
- .data          0x0000000000800081        0x0 /usr/lib/gcc/avr/4.8.1/avr25/tiny-stack/libgcc.a(_clear_bss.o)
- .data          0x0000000000800081        0x0 /usr/lib/gcc/avr/4.8.1/avr25/tiny-stack/libgcc.a(_adddi3_s8.o)
- .data          0x0000000000800081        0x0 /usr/lib/gcc/avr/4.8.1/avr25/tiny-stack/libgcc.a(_subdi3.o)
- .data          0x0000000000800081        0x0 /usr/lib/gcc/avr/4.8.1/avr25/tiny-stack/libgcc.a(_cmpdi2_s8.o)
+ .data          0x0000000000800081        0x0 /usr/lib/gcc/avr/4.9.2/avr25/tiny-stack/libgcc.a(_exit.o)
+ .data          0x0000000000800081        0x0 /usr/lib/gcc/avr/4.9.2/avr25/tiny-stack/libgcc.a(_copy_data.o)
+ .data          0x0000000000800081        0x0 /usr/lib/gcc/avr/4.9.2/avr25/tiny-stack/libgcc.a(_clear_bss.o)
+ .data          0x0000000000800081        0x0 /usr/lib/gcc/avr/4.9.2/avr25/tiny-stack/libgcc.a(_adddi3_s8.o)
+ .data          0x0000000000800081        0x0 /usr/lib/gcc/avr/4.9.2/avr25/tiny-stack/libgcc.a(_subdi3.o)
+ .data          0x0000000000800081        0x0 /usr/lib/gcc/avr/4.9.2/avr25/tiny-stack/libgcc.a(_cmpdi2_s8.o)
  *(.data*)
  *(.rodata)
  *(.rodata*)
@@ -356,20 +357,20 @@ END GROUP
 .bss            0x0000000000800082       0x19
                 0x0000000000800082                PROVIDE (__bss_start, .)
  *(.bss)
- .bss           0x0000000000800082        0x0 /usr/lib/gcc/avr/4.8.1/../../../avr/lib/avr25/tiny-stack/crttn2313.o
+ .bss           0x0000000000800082        0x0 /usr/lib/gcc/avr/4.9.2/../../../avr/lib/avr25/tiny-stack/crtattiny2313.o
  .bss           0x0000000000800082       0x15 main.o
  .bss           0x0000000000800097        0x4 uart.o
- .bss           0x000000000080009b        0x0 /usr/lib/gcc/avr/4.8.1/avr25/tiny-stack/libgcc.a(_exit.o)
- .bss           0x000000000080009b        0x0 /usr/lib/gcc/avr/4.8.1/avr25/tiny-stack/libgcc.a(_copy_data.o)
- .bss           0x000000000080009b        0x0 /usr/lib/gcc/avr/4.8.1/avr25/tiny-stack/libgcc.a(_clear_bss.o)
- .bss           0x000000000080009b        0x0 /usr/lib/gcc/avr/4.8.1/avr25/tiny-stack/libgcc.a(_adddi3_s8.o)
- .bss           0x000000000080009b        0x0 /usr/lib/gcc/avr/4.8.1/avr25/tiny-stack/libgcc.a(_subdi3.o)
- .bss           0x000000000080009b        0x0 /usr/lib/gcc/avr/4.8.1/avr25/tiny-stack/libgcc.a(_cmpdi2_s8.o)
+ .bss           0x000000000080009b        0x0 /usr/lib/gcc/avr/4.9.2/avr25/tiny-stack/libgcc.a(_exit.o)
+ .bss           0x000000000080009b        0x0 /usr/lib/gcc/avr/4.9.2/avr25/tiny-stack/libgcc.a(_copy_data.o)
+ .bss           0x000000000080009b        0x0 /usr/lib/gcc/avr/4.9.2/avr25/tiny-stack/libgcc.a(_clear_bss.o)
+ .bss           0x000000000080009b        0x0 /usr/lib/gcc/avr/4.9.2/avr25/tiny-stack/libgcc.a(_adddi3_s8.o)
+ .bss           0x000000000080009b        0x0 /usr/lib/gcc/avr/4.9.2/avr25/tiny-stack/libgcc.a(_subdi3.o)
+ .bss           0x000000000080009b        0x0 /usr/lib/gcc/avr/4.9.2/avr25/tiny-stack/libgcc.a(_cmpdi2_s8.o)
  *(.bss*)
  *(COMMON)
                 0x000000000080009b                PROVIDE (__bss_end, .)
-                0x0000000000000712                __data_load_start = LOADADDR (.data)
-                0x0000000000000734                __data_load_end = (__data_load_start + SIZEOF (.data))
+                0x0000000000000702                __data_load_start = LOADADDR (.data)
+                0x0000000000000724                __data_load_end = (__data_load_start + SIZEOF (.data))
 
 .noinit         0x000000000080009b        0x0
                 0x000000000080009b                PROVIDE (__noinit_start, .)
@@ -397,15 +398,15 @@ END GROUP
 .user_signatures
  *(.user_signatures*)
 
-.stab           0x0000000000000000     0x17b8
+.stab           0x0000000000000000     0x17c4
  *(.stab)
- .stab          0x0000000000000000      0xea0 main.o
- .stab          0x0000000000000ea0      0x918 uart.o
+ .stab          0x0000000000000000      0xeac main.o
+ .stab          0x0000000000000eac      0x918 uart.o
                                         0xb28 (size before relaxing)
 
-.stabstr        0x0000000000000000     0x1124
+.stabstr        0x0000000000000000     0x1122
  *(.stabstr)
- .stabstr       0x0000000000000000     0x1124 main.o
+ .stabstr       0x0000000000000000     0x1122 main.o
 
 .stab.excl
  *(.stab.excl)
@@ -423,7 +424,12 @@ END GROUP
  *(.comment)
  .comment       0x0000000000000000       0x11 main.o
                                          0x12 (size before relaxing)
- .comment       0x0000000000000000       0x12 uart.o
+ .comment       0x0000000000000011       0x12 uart.o
+
+.note.gnu.avr.deviceinfo
+                0x0000000000000000       0x40
+ .note.gnu.avr.deviceinfo
+                0x0000000000000000       0x40 /usr/lib/gcc/avr/4.9.2/../../../avr/lib/avr25/tiny-stack/crtattiny2313.o
 
 .note.gnu.build-id
  *(.note.gnu.build-id)
@@ -493,57 +499,57 @@ LOAD linker stubs
 Cross Reference Table
 
 Symbol                                            File
-__adddi3_s8                                       /usr/lib/gcc/avr/4.8.1/avr25/tiny-stack/libgcc.a(_adddi3_s8.o)
+__adddi3_s8                                       /usr/lib/gcc/avr/4.9.2/avr25/tiny-stack/libgcc.a(_adddi3_s8.o)
                                                   main.o
-__bad_interrupt                                   /usr/lib/gcc/avr/4.8.1/../../../avr/lib/avr25/tiny-stack/crttn2313.o
-__bss_end                                         /usr/lib/gcc/avr/4.8.1/avr25/tiny-stack/libgcc.a(_clear_bss.o)
-__bss_start                                       /usr/lib/gcc/avr/4.8.1/avr25/tiny-stack/libgcc.a(_clear_bss.o)
-__cmpdi2_s8                                       /usr/lib/gcc/avr/4.8.1/avr25/tiny-stack/libgcc.a(_cmpdi2_s8.o)
+__bad_interrupt                                   /usr/lib/gcc/avr/4.9.2/../../../avr/lib/avr25/tiny-stack/crtattiny2313.o
+__bss_end                                         /usr/lib/gcc/avr/4.9.2/avr25/tiny-stack/libgcc.a(_clear_bss.o)
+__bss_start                                       /usr/lib/gcc/avr/4.9.2/avr25/tiny-stack/libgcc.a(_clear_bss.o)
+__cmpdi2_s8                                       /usr/lib/gcc/avr/4.9.2/avr25/tiny-stack/libgcc.a(_cmpdi2_s8.o)
                                                   main.o
-__data_end                                        /usr/lib/gcc/avr/4.8.1/avr25/tiny-stack/libgcc.a(_copy_data.o)
-__data_load_start                                 /usr/lib/gcc/avr/4.8.1/avr25/tiny-stack/libgcc.a(_copy_data.o)
-__data_start                                      /usr/lib/gcc/avr/4.8.1/avr25/tiny-stack/libgcc.a(_copy_data.o)
-__do_clear_bss                                    /usr/lib/gcc/avr/4.8.1/avr25/tiny-stack/libgcc.a(_clear_bss.o)
+__data_end                                        /usr/lib/gcc/avr/4.9.2/avr25/tiny-stack/libgcc.a(_copy_data.o)
+__data_load_start                                 /usr/lib/gcc/avr/4.9.2/avr25/tiny-stack/libgcc.a(_copy_data.o)
+__data_start                                      /usr/lib/gcc/avr/4.9.2/avr25/tiny-stack/libgcc.a(_copy_data.o)
+__do_clear_bss                                    /usr/lib/gcc/avr/4.9.2/avr25/tiny-stack/libgcc.a(_clear_bss.o)
                                                   uart.o
                                                   main.o
-__do_copy_data                                    /usr/lib/gcc/avr/4.8.1/avr25/tiny-stack/libgcc.a(_copy_data.o)
+__do_copy_data                                    /usr/lib/gcc/avr/4.9.2/avr25/tiny-stack/libgcc.a(_copy_data.o)
                                                   uart.o
-__heap_end                                        /usr/lib/gcc/avr/4.8.1/../../../avr/lib/avr25/tiny-stack/crttn2313.o
-__init                                            /usr/lib/gcc/avr/4.8.1/../../../avr/lib/avr25/tiny-stack/crttn2313.o
-__stack                                           /usr/lib/gcc/avr/4.8.1/../../../avr/lib/avr25/tiny-stack/crttn2313.o
-__subdi3                                          /usr/lib/gcc/avr/4.8.1/avr25/tiny-stack/libgcc.a(_subdi3.o)
+__heap_end                                        /usr/lib/gcc/avr/4.9.2/../../../avr/lib/avr25/tiny-stack/crtattiny2313.o
+__init                                            /usr/lib/gcc/avr/4.9.2/../../../avr/lib/avr25/tiny-stack/crtattiny2313.o
+__stack                                           /usr/lib/gcc/avr/4.9.2/../../../avr/lib/avr25/tiny-stack/crtattiny2313.o
+__subdi3                                          /usr/lib/gcc/avr/4.9.2/avr25/tiny-stack/libgcc.a(_subdi3.o)
                                                   main.o
 __vector_1                                        main.o
-                                                  /usr/lib/gcc/avr/4.8.1/../../../avr/lib/avr25/tiny-stack/crttn2313.o
-__vector_10                                       /usr/lib/gcc/avr/4.8.1/../../../avr/lib/avr25/tiny-stack/crttn2313.o
-__vector_11                                       /usr/lib/gcc/avr/4.8.1/../../../avr/lib/avr25/tiny-stack/crttn2313.o
-__vector_12                                       /usr/lib/gcc/avr/4.8.1/../../../avr/lib/avr25/tiny-stack/crttn2313.o
-__vector_13                                       /usr/lib/gcc/avr/4.8.1/../../../avr/lib/avr25/tiny-stack/crttn2313.o
-__vector_14                                       /usr/lib/gcc/avr/4.8.1/../../../avr/lib/avr25/tiny-stack/crttn2313.o
-__vector_15                                       /usr/lib/gcc/avr/4.8.1/../../../avr/lib/avr25/tiny-stack/crttn2313.o
-__vector_16                                       /usr/lib/gcc/avr/4.8.1/../../../avr/lib/avr25/tiny-stack/crttn2313.o
-__vector_17                                       /usr/lib/gcc/avr/4.8.1/../../../avr/lib/avr25/tiny-stack/crttn2313.o
+                                                  /usr/lib/gcc/avr/4.9.2/../../../avr/lib/avr25/tiny-stack/crtattiny2313.o
+__vector_10                                       /usr/lib/gcc/avr/4.9.2/../../../avr/lib/avr25/tiny-stack/crtattiny2313.o
+__vector_11                                       /usr/lib/gcc/avr/4.9.2/../../../avr/lib/avr25/tiny-stack/crtattiny2313.o
+__vector_12                                       /usr/lib/gcc/avr/4.9.2/../../../avr/lib/avr25/tiny-stack/crtattiny2313.o
+__vector_13                                       /usr/lib/gcc/avr/4.9.2/../../../avr/lib/avr25/tiny-stack/crtattiny2313.o
+__vector_14                                       /usr/lib/gcc/avr/4.9.2/../../../avr/lib/avr25/tiny-stack/crtattiny2313.o
+__vector_15                                       /usr/lib/gcc/avr/4.9.2/../../../avr/lib/avr25/tiny-stack/crtattiny2313.o
+__vector_16                                       /usr/lib/gcc/avr/4.9.2/../../../avr/lib/avr25/tiny-stack/crtattiny2313.o
+__vector_17                                       /usr/lib/gcc/avr/4.9.2/../../../avr/lib/avr25/tiny-stack/crtattiny2313.o
 __vector_18                                       main.o
-                                                  /usr/lib/gcc/avr/4.8.1/../../../avr/lib/avr25/tiny-stack/crttn2313.o
+                                                  /usr/lib/gcc/avr/4.9.2/../../../avr/lib/avr25/tiny-stack/crtattiny2313.o
 __vector_2                                        main.o
-                                                  /usr/lib/gcc/avr/4.8.1/../../../avr/lib/avr25/tiny-stack/crttn2313.o
-__vector_3                                        /usr/lib/gcc/avr/4.8.1/../../../avr/lib/avr25/tiny-stack/crttn2313.o
-__vector_4                                        /usr/lib/gcc/avr/4.8.1/../../../avr/lib/avr25/tiny-stack/crttn2313.o
-__vector_5                                        /usr/lib/gcc/avr/4.8.1/../../../avr/lib/avr25/tiny-stack/crttn2313.o
-__vector_6                                        /usr/lib/gcc/avr/4.8.1/../../../avr/lib/avr25/tiny-stack/crttn2313.o
+                                                  /usr/lib/gcc/avr/4.9.2/../../../avr/lib/avr25/tiny-stack/crtattiny2313.o
+__vector_3                                        /usr/lib/gcc/avr/4.9.2/../../../avr/lib/avr25/tiny-stack/crtattiny2313.o
+__vector_4                                        /usr/lib/gcc/avr/4.9.2/../../../avr/lib/avr25/tiny-stack/crtattiny2313.o
+__vector_5                                        /usr/lib/gcc/avr/4.9.2/../../../avr/lib/avr25/tiny-stack/crtattiny2313.o
+__vector_6                                        /usr/lib/gcc/avr/4.9.2/../../../avr/lib/avr25/tiny-stack/crtattiny2313.o
 __vector_7                                        uart.o
-                                                  /usr/lib/gcc/avr/4.8.1/../../../avr/lib/avr25/tiny-stack/crttn2313.o
+                                                  /usr/lib/gcc/avr/4.9.2/../../../avr/lib/avr25/tiny-stack/crtattiny2313.o
 __vector_8                                        uart.o
-                                                  /usr/lib/gcc/avr/4.8.1/../../../avr/lib/avr25/tiny-stack/crttn2313.o
-__vector_9                                        /usr/lib/gcc/avr/4.8.1/../../../avr/lib/avr25/tiny-stack/crttn2313.o
-__vector_default                                  /usr/lib/gcc/avr/4.8.1/../../../avr/lib/avr25/tiny-stack/crttn2313.o
-__vectors                                         /usr/lib/gcc/avr/4.8.1/../../../avr/lib/avr25/tiny-stack/crttn2313.o
-_exit                                             /usr/lib/gcc/avr/4.8.1/avr25/tiny-stack/libgcc.a(_exit.o)
-exit                                              /usr/lib/gcc/avr/4.8.1/avr25/tiny-stack/libgcc.a(_exit.o)
-                                                  /usr/lib/gcc/avr/4.8.1/../../../avr/lib/avr25/tiny-stack/crttn2313.o
+                                                  /usr/lib/gcc/avr/4.9.2/../../../avr/lib/avr25/tiny-stack/crtattiny2313.o
+__vector_9                                        /usr/lib/gcc/avr/4.9.2/../../../avr/lib/avr25/tiny-stack/crtattiny2313.o
+__vector_default                                  /usr/lib/gcc/avr/4.9.2/../../../avr/lib/avr25/tiny-stack/crtattiny2313.o
+__vectors                                         /usr/lib/gcc/avr/4.9.2/../../../avr/lib/avr25/tiny-stack/crtattiny2313.o
+_exit                                             /usr/lib/gcc/avr/4.9.2/avr25/tiny-stack/libgcc.a(_exit.o)
+exit                                              /usr/lib/gcc/avr/4.9.2/avr25/tiny-stack/libgcc.a(_exit.o)
+                                                  /usr/lib/gcc/avr/4.9.2/../../../avr/lib/avr25/tiny-stack/crtattiny2313.o
 init_uart                                         uart.o
 main                                              main.o
-                                                  /usr/lib/gcc/avr/4.8.1/../../../avr/lib/avr25/tiny-stack/crttn2313.o
+                                                  /usr/lib/gcc/avr/4.9.2/../../../avr/lib/avr25/tiny-stack/crtattiny2313.o
 receive_uart                                      uart.o
 send_uart                                         uart.o
 uart_getc                                         uart.o
